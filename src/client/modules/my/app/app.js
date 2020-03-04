@@ -1,8 +1,10 @@
 import { LightningElement, track } from 'lwc';
+import { getObjects } from 'data/apiService'; 
 
 export default class App extends LightningElement {
     @track sessionId;
     @track state;
+    @track objects;
     constructor() {
         super();
         this.state = 'list';
@@ -26,5 +28,11 @@ export default class App extends LightningElement {
 
     get isStateDetails() {
         return this.state === 'details';
+    }
+    handleClick(){
+        getObjects().then(result => {
+            this.objects = result;
+        });
+        console.log(this.objects);
     }
 }
