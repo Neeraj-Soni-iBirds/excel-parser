@@ -34,10 +34,7 @@ module.exports = app => {
             'ibirds12347pNh5h7EKJPKJPnQpYtK0Wr3a'
         );
 
-        //console.log(loginResult);
-        let metadataResult = await conn.metadata.list(types, '36.0', function (err, metadata) {
-            console.log('Metadata   ', metadata);
-        });
+        let metadataResult = await conn.metadata.list(types, '36.0');
         metadataResult.forEach(function (meta) {
             objectNames.push(meta.fullName);
         });
