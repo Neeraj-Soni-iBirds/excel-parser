@@ -36,7 +36,9 @@ module.exports = app => {
         );
 
         //console.log(loginResult);
-        let metadataResult = await loginResult.metadata.list(types, '36.0'); 
+        let metadataResult = await conn.metadata.list(types, '36.0' , function (err, metadata) {
+            console.log('Metadata   ' , metadata);
+        }); 
         console.log('TESTTESTTEST   ',metadataResult);
     });
 
