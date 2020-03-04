@@ -11,6 +11,10 @@
         <template if:true={isStateDetails}>
             <my-session-details session-id={sessionId}></my-session-details>
         </template>
-        <lightning-button label="Fetch Data" title="Non-primary action" class="slds-m-left_x-small"></lightning-button>
+        <input
+            type="Button"
+            placeholder="Search Sessions.."
+            oninput={handleSearchKeyInput}
+        />
     </main>
 </template>
