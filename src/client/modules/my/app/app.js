@@ -1,5 +1,5 @@
 import { LightningElement, track } from 'lwc';
-import { getObjects } from 'modules/data/apiService'; 
+import { getObjects } from 'data/apiService';  
 
 export default class App extends LightningElement {
     @track sessionId;
