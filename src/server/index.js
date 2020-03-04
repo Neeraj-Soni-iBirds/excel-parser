@@ -23,12 +23,11 @@
 module.exports = app => {
 
 
-    app.get('/api/objects', async (req, res) =>  {
+    app.get('/api/objects', async (req, res) => {
         var objectNames = [];
         var types = [{ type: 'CustomObject', folder: null }];
         var jsforce = require('jsforce');
         var conn = new jsforce.Connection();
-        var self = this;
         // eslint-disable-next-line consistent-return
         let loginResult = await conn.login(
             'shree.r@gmail.com',
@@ -36,10 +35,25 @@ module.exports = app => {
         );
 
         //console.log(loginResult);
-        let metadataResult = await conn.metadata.list(types, '36.0' , function (err, metadata) {
-            console.log('Metadata   ' , metadata);
-        }); 
-        console.log('TESTTESTTEST   ',metadataResult);
+        let metadataResult = await conn.metadata.list(types, '36.0', function (err, metadata) {
+            console.log('Metadata   ', metadata);
+        });
+        metadataResult.forEach(function (meta) {
+            objectNames.push(meta.fullName);
+        });
+        var objects = [{}];
+        var response = objectNames.sort();
+        response.forEach(function (item, index) {
+            var obj = {
+                objName: item,
+                id: index
+            };
+            objects.push(obj);
+        });
+        objects.shift();
+        console.log('TESTTESTTEST  ', objects);
+        res.send({ data: objects });
+
     });
 
 
