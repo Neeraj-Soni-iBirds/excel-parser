@@ -36,7 +36,6 @@ module.exports = app => {
         );
 
         //console.log(loginResult);
-        let types = [{type: 'CustomObject', folder: null}];
         let metadataResult = await loginResult.conn.metadata.list(types, '36.0'); 
         console.log(metadataResult);
     });
