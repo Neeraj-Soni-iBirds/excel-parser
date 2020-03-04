@@ -23,40 +23,22 @@
 module.exports = app => {
 
 
-    app.get('/api/objects', async (req, res) => {
+    app.get('/api/objects', async (req, res) =>  {
         var objectNames = [];
         var types = [{ type: 'CustomObject', folder: null }];
         var jsforce = require('jsforce');
         var conn = new jsforce.Connection();
         var self = this;
         // eslint-disable-next-line consistent-return
-        var loginResult = await conn.login(
+        let loginResult = await conn.login(
             'shree.r@gmail.com',
             'ibirds12347pNh5h7EKJPKJPnQpYtK0Wr3a'
         );
 
-        console.log(loginResult);
-
-        let metadata = await loginResult.conn.metadata.list(types, '36.0', await conn.metadata.list(types, function (err, metadata) {
-            var meta = metadata[0];
-            var types = [{ type: 'CustomObject', folder: null }];
-            if (err) { return console.error('err', err); }
-            metadata.forEach(function (meta) {
-                objectNames.push(meta.fullName);
-            });
-            var objects = [{}];
-            var response = objectNames.sort();
-            response.forEach(function (item, index) {
-                var obj = {
-                    objName: item,
-                    id: index
-                };
-                objects.push(obj);
-            });
-            objects.shift();
-            console.log('TESTTESTTEST  ', objects);
-            //res.send({ data: objects });
-        });
+        //console.log(loginResult);
+        let types = [{type: 'CustomObject', folder: null}];
+        let metadataResult = await loginResult.conn.metadata.list(types, '36.0'); 
+        console.log(metadataResult);
     });
 
 
