@@ -37,7 +37,7 @@ module.exports = app => {
 
         //console.log(loginResult);
         let metadataResult = await loginResult.metadata.list(types, '36.0'); 
-        console.log(metadataResult);
+        console.log('TESTTESTTEST   ',metadataResult);
     });
 
 
