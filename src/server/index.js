@@ -34,7 +34,6 @@ module.exports = app => {
             'ibirds12347pNh5h7EKJPKJPnQpYtK0Wr3a',
             // eslint-disable-next-line consistent-return
             function (err, res) {
-                var objects = [{}];
                 console.log('test ' + JSON.stringify(res));
                 if (err) {
                     return console.error(err);
@@ -49,6 +48,7 @@ module.exports = app => {
                         metadata.forEach(function (meta) {
                             objectNames.push(meta.fullName);
                         });
+                        var objects = [{}];
                         var response = objectNames.sort();
                         response.forEach(function (item, index) {
                             var obj = {
@@ -59,9 +59,9 @@ module.exports = app => {
                         });
                         objects.shift();
                         console.log('TESTTESTTEST  ' , objects);
+                        res.send({ data: objects });
                     });
                 });
-                res.send({ data: objects });
             }
         ).catch(function (error) {
             console.error(error);
