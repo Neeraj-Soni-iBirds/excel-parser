@@ -37,27 +37,25 @@ module.exports = app => {
 
         console.log(loginResult);
 
-        let metadata = await loginResult.conn.metadata.list(types, '36.0', function (err, metadata) {
+        let metadata = await loginResult.conn.metadata.list(types, '36.0', await conn.metadata.list(types, function (err, metadata) {
             var meta = metadata[0];
             var types = [{ type: 'CustomObject', folder: null }];
-            conn.metadata.list(types, function (err, metadata) {
-                if (err) { return console.error('err', err); }
-                metadata.forEach(function (meta) {
-                    objectNames.push(meta.fullName);
-                });
-                var objects = [{}];
-                var response = objectNames.sort();
-                response.forEach(function (item, index) {
-                    var obj = {
-                        objName: item,
-                        id: index
-                    };
-                    objects.push(obj);
-                });
-                objects.shift();
-                console.log('TESTTESTTEST  ', objects);
-                //res.send({ data: objects });
+            if (err) { return console.error('err', err); }
+            metadata.forEach(function (meta) {
+                objectNames.push(meta.fullName);
             });
+            var objects = [{}];
+            var response = objectNames.sort();
+            response.forEach(function (item, index) {
+                var obj = {
+                    objName: item,
+                    id: index
+                };
+                objects.push(obj);
+            });
+            objects.shift();
+            console.log('TESTTESTTEST  ', objects);
+            //res.send({ data: objects });
         });
     });
 
