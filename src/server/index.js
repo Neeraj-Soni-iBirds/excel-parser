@@ -28,6 +28,7 @@ module.exports = app => {
         var types = [{ type: 'CustomObject', folder: null }];
         var jsforce = require('jsforce');
         var conn = new jsforce.Connection();
+        var self = this;
         // eslint-disable-next-line consistent-return
         conn.login(
             'shree.r@gmail.com',
@@ -59,7 +60,7 @@ module.exports = app => {
                         });
                         objects.shift();
                         console.log('TESTTESTTEST  ' , objects);
-                        res.send({ data: objects });
+                        self.res.send({ data: objects });
                     });
                 });
             }
