@@ -58,6 +58,7 @@ module.exports = app => {
                             objects.push(obj);
                         });
                         objects.shift();
+                        console.log('TESTTESTTEST  ' , objects);
                         res.send({ data: objects });
                     });
                 });
