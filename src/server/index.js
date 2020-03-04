@@ -36,7 +36,7 @@ module.exports = app => {
         );
 
         //console.log(loginResult);
-        let metadataResult = await loginResult.conn.metadata.list(types, '36.0'); 
+        let metadataResult = await loginResult.metadata.list(types, '36.0'); 
         console.log(metadataResult);
     });
 
@@ -50,7 +50,7 @@ module.exports = app => {
             'ibirds12347pNh5h7EKJPKJPnQpYtK0Wr3a',
             // eslint-disable-next-line consistent-return
             function (err, res) {
-                console.log('test ' + JSON.stringify(res));
+                //console.log('test ' + JSON.stringify(res));
                 if (err) {
                     return console.error(err);
                 }
@@ -62,12 +62,12 @@ module.exports = app => {
                     if (error) {
                         return console.error(error);
                     }
-                    console.log(res2);
+                    //console.log(res2);
                     response.json(res2);
                 });
             }
         ).catch(function (error) {
-            console.error(error);
+            c//onsole.error(error);
         });
     });
 };
