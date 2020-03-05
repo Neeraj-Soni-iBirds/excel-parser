@@ -11,6 +11,7 @@ export default class App extends LightningElement {
     newLookupField;
     
     connectedCallback() {
+        this.hasSelectedObject = true;
         getObjects().then(result => {
             this.objects = result;
         });
