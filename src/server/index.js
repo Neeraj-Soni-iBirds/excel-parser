@@ -31,5 +31,13 @@ module.exports = app => {
         if(objects)
             res.send({ data: objects });
     });
-    
+
+    app.get('/api/fields', (req, res) => {
+        var objectName = req.query.objName;
+        conn.metadata.read('CustomObject', objectName, function (err, metadata) {
+            if (err) { console.error(err); }
+            res.send({ data: JSON.stringify(metadata) });
+        });
+    });
+
 };
