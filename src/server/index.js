@@ -22,7 +22,7 @@
 var jsforce = require('jsforce');
 var conn = new jsforce.Connection();
 
-let loginResult = await conn.login(
+let loginResult = conn.login(
     'shree.r@gmail.com',
     'ibirds12347pNh5h7EKJPKJPnQpYtK0Wr3a'
 );
