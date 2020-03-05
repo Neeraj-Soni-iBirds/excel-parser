@@ -8,8 +8,8 @@
             <div class="loader"></div>
         </template>
         <template if:true={objects}>
-            Object Names: <br>
-            <select name="" id="names" onchange={handleChange} style="width: 150px;">
+            Object Names: <br> <br>
+            <select name="" id="names" onchange={handleChange} >
                 <option value="none">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--NONE--</option>
                 <template for:each={objects} for:item="obj">
                     <option key={obj.id} value={obj.objName}>{obj.objName}</option>
