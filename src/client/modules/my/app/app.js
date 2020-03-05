@@ -3,45 +3,19 @@ import { getObjects } from 'data/apiService';
 import { getFields } from 'data/fieldApiService';
 
 export default class App extends LightningElement {
-    @track sessionId;
-    @track state;
     @track objects;
     @track objectMetadata;
     @track hasSelectedObject;
     @track parsedMetadata;
     @track accessToken= "asd";
     newLookupField;
-    constructor() {
-        super();
-        this.state = 'list';
-        window.history.replaceState('list', null, '');
-        window.onpopstate = event => {
-            if (event.state) {
-                this.state = event.state;
-            }
-        };
-    }
-
+    
     connectedCallback() {
         getObjects().then(result => {
             this.objects = result;
         });
-        console.log(this.objects);
     }
 
-    handleNavigate(event) {
-        this.sessionId = event.detail;
-        this.state = 'details';
-        window.history.pushState('details', null);
-    }
-
-    get isStateList() {
-        return this.state === 'list';
-    }
-
-    get isStateDetails() {
-        return this.state === 'details';
-    }
     handleChange(event) {
         this.hasSelectedObject = false;
         this.objectMetadata = [];
