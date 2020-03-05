@@ -1,4 +1,4 @@
-.content {
+/* .content {
     padding: 0 3rem;
 }
 header {
@@ -16,4 +16,99 @@ header img {
 header h2 {
     font-size: 1.75rem;
     font-weight: 300;
+} */
+
+.content {
+    padding: 0 3rem;
+}
+
+header {
+    padding: 1rem;
+    display: flex;
+    color: #ffffff;
+    background: #0288d1;
+    box-shadow: 0 4px 3px rgba(1, 87, 155, 0.5);
+    align-items: center;
+}
+
+header img {
+    height: 3rem;
+    margin-right: 0.3rem;
+}
+
+header h2 {
+    font-size: 1.75rem;
+    font-weight: 300;
+}
+
+ :host {
+    width: 100%;
+    padding: 2rem;
+    color: #080707;
+}
+
+input {
+    border: 1px solid #dddbda;
+    border-radius: 0.25rem;
+    transition: border 0.1s linear, background-color 0.1s linear;
+    display: inline-block;
+    padding: 0 1rem 0 0.75rem;
+    line-height: 2rem;
+    font-size: 1rem;
+    width: 15rem;
+}
+
+select {
+    border-radius: 10px;
+}
+
+.list {
+    margin: 10px;
+}
+
+.loader {
+    border: 10px solid #f3f3f3;
+    /* Light grey */
+    border-top: 10px solid #3498db;
+    /* Blue */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+    position: absolute;
+    top: 45%;
+    left: 45%;
+}
+
+.msg {
+    position: absolute;
+    top: 30%;
+    left: 45%;
+    padding: 20px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.box {
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06), 0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.12);
+    margin: 100px auto;
+    background: white;
+    border-radius: 5px;
 }

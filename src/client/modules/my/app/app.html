@@ -4,12 +4,8 @@
         <h2>Saleforce Object Cloner</h2>
     </header>
     <main class="content">
-        <!-- Add components here -->
-        <template if:true={isStateList}>
-            <my-session-list onnavigate={handleNavigate}></my-session-list>
-        </template>
-        <template if:true={isStateDetails}>
-            <my-session-details session-id={sessionId}></my-session-details>
+        <template if:false={objects}>
+            <div class="loader"></div>
         </template>
         <template if:true={objects}>
             Object Names: <br>
@@ -27,6 +23,5 @@
                 <div class="loader"></div>
             </template>
         </template>
-        <input type="Button" value="Fetch Data" style="float:right;" onclick={handleClick} />
     </main>
 </template>
