@@ -11,9 +11,22 @@
         <template if:true={isStateDetails}>
             <my-session-details session-id={sessionId}></my-session-details>
         </template>
-        
-        {objects}
-        <input type="Button" value="Fetch Data" style="float:right;" onclick={handleClick}/>
-       
+        <template if:true={objects}>
+            Object Names: <br>
+            <select name="" id="names" onchange={handleChange} style="width: 150px;">
+                <option value="none">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--NONE--</option>
+                <template for:each={objects} for:item="obj">
+                    <option key={obj.id} value={obj.objName}>{obj.objName}</option>
+                </template>
+            </select>
+            <template if:true={objectMetadata}>
+                <button style="margin-left:800px; width:auto;" onclick={handleCreate}>Create New Object</button>
+                {objectMetadata}
+            </template>
+            <template if:false={hasSelectedObject}>
+                <div class="loader"></div>
+            </template>
+        </template>
+        <input type="Button" value="Fetch Data" style="float:right;" onclick={handleClick} />
     </main>
 </template>
