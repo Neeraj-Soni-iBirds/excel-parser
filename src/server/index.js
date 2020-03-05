@@ -19,21 +19,20 @@
 //     }
 // });
 
+var jsforce = require('jsforce');
+var conn = new jsforce.Connection();
+
+let loginResult = await conn.login(
+    'shree.r@gmail.com',
+    'ibirds12347pNh5h7EKJPKJPnQpYtK0Wr3a'
+);
 
 module.exports = app => {
-
-
+    
     app.get('/api/objects', async (req, res) => {
         var objectNames = [];
         var types = [{ type: 'CustomObject', folder: null }];
-        var jsforce = require('jsforce');
-        var conn = new jsforce.Connection();
         // eslint-disable-next-line consistent-return
-        let loginResult = await conn.login(
-            'shree.r@gmail.com',
-            'ibirds12347pNh5h7EKJPKJPnQpYtK0Wr3a'
-        );
-
         let metadataResult = await conn.metadata.list(types, '36.0');
         metadataResult.forEach(function (meta) {
             objectNames.push(meta.fullName);
@@ -54,35 +53,35 @@ module.exports = app => {
     });
 
 
-    app.get('/api/sessions', (req, res) => {
-        var jsforce = require('jsforce');
-        var conn = new jsforce.Connection();
-        // eslint-disable-next-line consistent-return
-        conn.login(
-            'shree.r@gmail.com',
-            'ibirds12347pNh5h7EKJPKJPnQpYtK0Wr3a',
-            // eslint-disable-next-line consistent-return
-            function (err, res) {
-                //console.log('test ' + JSON.stringify(res));
-                if (err) {
-                    return console.error(err);
-                }
-                // eslint-disable-next-line consistent-return
-                conn.query('SELECT Id, Name FROM Account', function (
-                    error,
-                    res2
-                ) {
-                    if (error) {
-                        return console.error(error);
-                    }
-                    //console.log(res2);
-                    response.json(res2);
-                });
-            }
-        ).catch(function (error) {
-            c//onsole.error(error);
-        });
-    });
+    // app.get('/api/sessions', (req, res) => {
+    //     var jsforce = require('jsforce');
+    //     var conn = new jsforce.Connection();
+    //     // eslint-disable-next-line consistent-return
+    //     conn.login(
+    //         'shree.r@gmail.com',
+    //         'ibirds12347pNh5h7EKJPKJPnQpYtK0Wr3a',
+    //         // eslint-disable-next-line consistent-return
+    //         function (err, res) {
+    //             //console.log('test ' + JSON.stringify(res));
+    //             if (err) {
+    //                 return console.error(err);
+    //             }
+    //             // eslint-disable-next-line consistent-return
+    //             conn.query('SELECT Id, Name FROM Account', function (
+    //                 error,
+    //                 res2
+    //             ) {
+    //                 if (error) {
+    //                     return console.error(error);
+    //                 }
+    //                 //console.log(res2);
+    //                 response.json(res2);
+    //             });
+    //         }
+    //     ).catch(function (error) {
+    //         c//onsole.error(error);
+    //     });
+    // });
 };
 
 
