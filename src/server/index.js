@@ -40,4 +40,15 @@ module.exports = app => {
         });
     });
 
+    app.post('/api/create', function (req, res) {
+        var metadata = req.body;
+        conn.metadata.create('CustomObject', metadata, function (err, results) {
+            if (err) { console.err(err); }
+            if (results[0].errors) { console.err(results[0].errors); }
+            console.log('success ? : ' + results[0].success);
+            console.log('fullName : ' + results[0].fullName);
+            res.send({ data: JSON.stringify(results) });
+        });
+    });
+
 };

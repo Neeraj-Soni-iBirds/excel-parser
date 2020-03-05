@@ -1,6 +1,7 @@
 import { LightningElement, track } from 'lwc';
 import { getObjects } from 'data/apiService';  
 import { getFields } from 'data/fieldApiService';
+import { createObject } from 'data/createObjectService';
 
 export default class App extends LightningElement {
     @track objects;
@@ -66,6 +67,13 @@ export default class App extends LightningElement {
             delete this.parsedMetadata[key];
             this.parsedMetadata = JSON.stringify(this.parsedMetadata);
             console.log(this.parsedMetadata);
+        });
+    }
+
+    handleCreate(event) {
+        console.log("INSIDE HANDLECREATE", this.parsedMetadata);
+        createObject(this.parsedMetadata).then(result => {
+            console.log("Object Created !! ", result);
         });
     }
 }
