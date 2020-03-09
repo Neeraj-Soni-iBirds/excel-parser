@@ -4,33 +4,12 @@
         <h2>Saleforce Object Cloner</h2>
     </header>
     <main class="content">
-
-        <!-- Modal Start -->
-        <div id="myModal" class="modal" style="display: block;">
-            <div style="margin-top: 20px;">
-                <span class="close" style="width: 10%;margin-top: -30px;color: white;">×</span>
-                <!-- Modal content -->
-                <div class="modal-content">
-                    <div class="container">
-                        <label for="uname"><b>Username</b></label>
-                        <input type="text" placeholder="Enter Username" name="uname" required>
-
-                        <label for="psw"><b>Password</b></label>
-                        <input type="password" placeholder="Enter Password" name="psw" required>
-
-                        <button type="submit">Login</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal End -->
-
         <template if:false={objects}>
             <div class="loader"></div>
         </template>
         <template if:true={objects}>
             Object Names: <br> <br>
-            <select name="" id="names" onchange={handleChange}>
+            <select name="" id="names" onchange={handleChange} >
                 <option value="none">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--NONE--</option>
                 <template for:each={objects} for:item="obj">
                     <option key={obj.id} value={obj.objName}>{obj.objName}</option>
