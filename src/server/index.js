@@ -11,6 +11,7 @@ let loginResult = conn.login(
 module.exports = app => {
 
     app.get('/api/objects', async (req, res) => {
+        console.log('loginResult   ' , loginResult);
         var objectNames = [];
         var types = [{ type: 'CustomObject', folder: null }];
         let metadataResult = await conn.metadata.list(types, '36.0');
