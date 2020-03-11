@@ -53,7 +53,7 @@ module.exports = app => {
 
     app.post('/api/login', jsonParser , function (req, res) {
         console.log('req.body  ' , req.body);
-        var loginData = JSON.parse(req.body);
+        var loginData = req.body;
         console.log('loginData  ' , loginData);
         loginResult = conn.login(
             loginData.userName,
