@@ -104,7 +104,7 @@ export default class App extends LightningElement {
             let loginData = JSON.stringify(this.credentials);
             performLogin(loginData).then(result => {
                 console.log('PerformLogin Result  ' , result.data);
-                if(resule.error){
+                if(result.error){
                     this.openModal();
                     this.showSnackbar('error', result.error);
                 } else if(result.data){
