@@ -16,13 +16,13 @@
                         <span onclick={closeModal} class="closeButton">X</span>
                         <div class="container">
                             <label for="uname"><b>Username</b></label>
-                            <input value={userName} onchange={handleUsernameChange} type="text" placeholder="Enter Username" name="uname" required>
+                            <input value={credentials.userName} onchange={handleUsernameChange} type="text" placeholder="Enter Username" name="uname" >
 
                             <label for="psw"><b>Password</b></label>
-                            <input value={password} onchange={handlePasswordChange} type="password" placeholder="Enter Password" name="psw" required>
+                            <input value={credentials.password} onchange={handlePasswordChange} type="password" placeholder="Enter Password" name="psw" >
 
                             <label for="secToken"><b>Securoty Token</b></label>
-                            <input value={securityToken} onchange={handleTokenChange} type="text" placeholder="Enter Securoty Token" name="secToken" required>
+                            <input value={credentials.securityToken} onchange={handleTokenChange} type="text" placeholder="Enter Securoty Token" name="secToken" >
                             <div style="text-align: center;">
                                 <button onclick={loginUser} type="submit" style="width: auto;background: #0288d1;">Login</button>
                             </div>

@@ -1,5 +1,5 @@
 import { LightningElement, track } from 'lwc';
-import { getObjects } from 'data/apiService';  
+import { getObjects } from 'data/apiService';
 import { getFields } from 'data/fieldApiService';
 import { createObject } from 'data/createObjectService';
 import { performLogin } from 'data/loginApiService';
@@ -9,18 +9,20 @@ export default class App extends LightningElement {
     @track objectMetadata;
     @track hasSelectedObject;
     @track parsedMetadata;
-    @track accessToken= "asd";
+    @track accessToken = "asd";
     @track isModalOpen = true;
     @track isLoggedIn = false;
     @track showToast = false;
-    
+
     //Login Credentials
-    @track userName;
-    @track password;
-    @track securityToken;
+    @track credentials = {
+        userName= '',
+        password='',
+        securityToken=''
+    }
 
     newLookupField;
-    
+
     connectedCallback() {
         this.hasSelectedObject = true;
         getObjects().then(result => {
@@ -60,7 +62,7 @@ export default class App extends LightningElement {
             }
             if (this.parsedMetadata.fields && this.parsedMetadata.fields.length > 0) {
                 this.parsedMetadata.fields.forEach(element => {
-                    if(!element.label){
+                    if (!element.label) {
                         element.label = element.fullName;
                         element.label = element.label.replace(/([A-Z])/g, ' $1').trim();
                     }
@@ -78,14 +80,14 @@ export default class App extends LightningElement {
             console.log(this.parsedMetadata);
         });
     }
-    handleUsernameChange(event){
-        this.userName = event.target.value;
+    handleUsernameChange(event) {
+        this.credentials.userName = event.target.value;
     }
-    handlePasswordChange(event){
-        this.password = event.target.value;
+    handlePasswordChange(event) {
+        this.credentials.password = event.target.value;
     }
-    handleTokenChange(event){
-        this.securityToken = event.target.value;
+    handleTokenChange(event) {
+        this.credentials.securityToken = event.target.value;
     }
     handleCreate(event) {
         console.log("INSIDE HANDLECREATE", this.parsedMetadata);
@@ -93,24 +95,24 @@ export default class App extends LightningElement {
             console.log("Object Created !! ", result);
         });
     }
-    openModal(){
+    openModal() {
         this.isModalOpen = true;
     }
-    closeModal(){
+    closeModal() {
         this.isModalOpen = false;
     }
-    loginUser(){
-        if(!(this.userName && this.password && this.securityToken)){
+    loginUser() {
+        if (!(this.credentials.userName && this.credentials.password && this.credentials.securityToken)) {
             this.showToast = true;
-            this.template.querySelector('.snackbar').classList.add('show'); 
+            this.template.querySelector('.snackbar').classList.add('show');
             setTimeout(() => {
                 this.showToast = false;
-                this.template.querySelector('.snackbar').classList.remove('show'); 
+                this.template.querySelector('.snackbar').classList.remove('show');
             }, 3000);
         } else {
             performLogin(this.parsedMetadata).then(result => {
                 this.isLoggedIn = true;
             });
-        }        
+        }
     }
 }
