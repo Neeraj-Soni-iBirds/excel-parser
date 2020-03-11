@@ -53,17 +53,22 @@ module.exports = app => {
 
     app.post('/api/login', jsonParser, async function (req, res) {
         var loginData = req.body;
-        loginResult = await conn.login(
-            loginData.userName,
-            loginData.passAndToken
-        );
-        res.send({ data: loginResult});
+        try {
+            loginResult = await conn.login(
+                loginData.userName,
+                loginData.passAndToken
+            );
+        } catch (ex) {
+            console.log('EXCEPTION::  ' , ex)
+            res.send({ data: 'INVALID DATA' });
+        }
+        res.send({ data: loginResult });
     });
 
     app.get('/api/logout', jsonParser, function (req, res) {
         conn.logout(function (err) {
             if (err) { return console.error(err); }
-            res.send({ data: 'success'});
+            res.send({ data: 'success' });
         });
     });
 };
