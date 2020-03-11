@@ -76,7 +76,7 @@ export default class App extends LightningElement {
             console.log("Object Created !! ", result);
         });
     }
-    openModal{
-        this.template.querySelector('#myModal').style.display = "block";;
+    openModal(){
+        this.template.querySelector('#myModal').style.display = "block";
     }
 }
