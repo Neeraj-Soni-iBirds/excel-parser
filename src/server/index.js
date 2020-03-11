@@ -52,20 +52,12 @@ module.exports = app => {
     });
 
     app.post('/api/login', jsonParser, async function (req, res) {
-        console.log('req.body  ', req.body);
         var loginData = req.body;
-        console.log('loginData  ', loginData);
         loginResult = await conn.login(
             loginData.userName,
             loginData.passAndToken
         );
-        console.log('loginResult 123 ', JSON.stringify(loginResult));
-        let test = JSON.stringify(loginResult);
-        console.log('test  STRINGIFIED  ', test);
-        let testParsed = JSON.parse(test);
-        console.log('testParsed  ', testParsed);
-        console.log(' testParsed._55 ', testParsed._55);
-        res.send({ data: JSON.stringify(loginResult) });
+        res.send({ data: loginResult});
     });
 
     app.get('/api/logout', jsonParser, function (req, res) {

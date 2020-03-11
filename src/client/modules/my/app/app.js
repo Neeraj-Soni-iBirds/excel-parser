@@ -16,10 +16,10 @@ export default class App extends LightningElement {
 
     //Login Credentials
     @track credentials = {
-        userName : '',
-        password :'',
-        securityToken :'',
-        passAndToken :''
+        userName: '',
+        password: '',
+        securityToken: '',
+        passAndToken: ''
     }
 
     newLookupField;
@@ -101,27 +101,30 @@ export default class App extends LightningElement {
     }
     loginUser() {
         //this.credentials.userName || this.credentials.password || this.credentials.securityToken || 
-        this.credentials.passAndToken = this.credentials.password +  this.credentials.securityToken;
+        this.credentials.passAndToken = this.credentials.password + this.credentials.securityToken;
         if (this.credentials.userName == '' || this.credentials.password == '' || this.credentials.securityToken == '') {
             this.template.querySelector('.snackbar').classList.add('show');
             setTimeout(() => {
                 this.template.querySelector('.snackbar').classList.remove('show');
             }, 3000);
         } else {
-            console.log('Logindata before hitting api:: ' , JSON.stringify(this.credentials));
             let loginData = JSON.stringify(this.credentials);
             performLogin(loginData).then(result => {
-                console.log('Login Result ::  ' , result);
-                this.isLoggedIn = true;
-                getObjects().then(result => {
-                    this.objects = result;
-                });
+                if (result.id == '' || result.organizationId == '' || result.url == '') {
+                    //Error in Login Process
+                    this.openModal();
+                } else {
+                    this.isLoggedIn = true;
+                    getObjects().then(result => {
+                        this.objects = result;
+                    });
+                }
             });
         }
     }
-    logOut(){
+    logOut() {
         performLogout().then(result => {
-            console.log('logout result = ' , result);
+            console.log('logout result = ', result);
         });
     }
 }
