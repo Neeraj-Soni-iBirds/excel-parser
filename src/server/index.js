@@ -3,10 +3,12 @@
 
 var jsforce = require('jsforce');
 var conn = new jsforce.Connection();
+var bodyParser = require('body-parser');
 let loginResult;
 
 module.exports = app => {
-
+    app.use(bodyParser.urlencoded({ extended: false }))
+    var jsonParser = bodyParser.json()
     app.get('/api/objects', async (req, res) => {
         console.log('loginResult   ' , loginResult);
         var objectNames = [];
@@ -38,7 +40,7 @@ module.exports = app => {
         });
     });
 
-    app.post('/api/create', function (req, res) {
+    app.post('/api/create', jsonParser, function (req, res) {
         var metadata = req.body;
         conn.metadata.create('CustomObject', metadata, function (err, results) {
             if (err) { console.err(err); }
@@ -49,7 +51,7 @@ module.exports = app => {
         });
     });
 
-    app.post('/api/login', function (req, res) {
+    app.post('/api/login', jsonParser , function (req, res) {
         console.log('req.body  ' , req.body);
         var loginData = JSON.parse(req.body);
         console.log('loginData  ' , loginData);
