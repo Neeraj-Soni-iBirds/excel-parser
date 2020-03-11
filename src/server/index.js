@@ -3,10 +3,7 @@
 
 var jsforce = require('jsforce');
 var conn = new jsforce.Connection();
-let loginResult = conn.login(
-    'shree.r@gmail.com',
-    'ibirds12347pNh5h7EKJPKJPnQpYtK0Wr3a'
-);
+let loginResult;
 
 module.exports = app => {
 
@@ -52,4 +49,14 @@ module.exports = app => {
         });
     });
 
+    app.post('/api/login', function (req, res) {
+        var loginData = JSON.parse(req.body);
+        console.log('loginData  ' , loginData);
+        loginResult = conn.login(
+            loginData.userName,
+            loginData.password + loginData.securityToken
+        );
+        console.log('loginResult  ' , loginResult);
+        res.send({ data: JSON.stringify(loginResult) });
+    });
 };

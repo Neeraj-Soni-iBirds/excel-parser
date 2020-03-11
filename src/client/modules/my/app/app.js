@@ -108,7 +108,8 @@ export default class App extends LightningElement {
                 this.template.querySelector('.snackbar').classList.remove('show');
             }, 3000);
         } else {
-            performLogin(this.parsedMetadata).then(result => {
+            performLogin(JSON.stringify(this.credentials)).then(result => {
+                console.log('Login Result ::  ' , result);
                 this.isLoggedIn = true;
             });
         }

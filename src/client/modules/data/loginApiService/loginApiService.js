@@ -1,11 +1,11 @@
-const URL = "/api/create";
+const URL = "/api/login";
 let fields = [];
-export const performLogin = (metadata) => fetch(URL, {
+export const performLogin = (loginCredentials) => fetch(URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: metadata
+        body: loginCredentials
     })
     .then(response => {
         if (!response.ok) {
