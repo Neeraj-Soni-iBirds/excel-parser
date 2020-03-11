@@ -7,10 +7,9 @@ import { performLogout } from 'data/logoutApiService';
 
 export default class App extends LightningElement {
     @track objects;
-    @track objectMetadata;
-    @track hasSelectedObject;
+    @track objectMetadata = [];
+    @track hasSelectedObject = true;
     @track parsedMetadata;
-    @track accessToken = "asd";
     @track isModalOpen = true;
     @track isLoggedIn = false;
 
@@ -24,9 +23,6 @@ export default class App extends LightningElement {
 
     newLookupField;
 
-    connectedCallback() {
-        this.hasSelectedObject = true;
-    }
     handleChange(event) {
         this.hasSelectedObject = false;
         this.objectMetadata = [];
@@ -129,7 +125,6 @@ export default class App extends LightningElement {
             this.showSnackbar('success', 'Logged Out !');
         });
     }
-
     showSnackbar(variant = 'error', message = 'Some Error Occoured !', duration = 3000) {
         this.template.querySelector('.snackbar').innerHTML= message;
         this.template.querySelector('.snackbar').classList.add('show' , variant);
