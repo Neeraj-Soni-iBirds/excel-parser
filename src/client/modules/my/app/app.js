@@ -13,6 +13,7 @@ export default class App extends LightningElement {
     @track isModalOpen = true;
     @track isLoggedIn = false;
     @track showToast = false;
+    
     //Login Credentials
     @track userName;
     @track password;
