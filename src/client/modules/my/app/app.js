@@ -79,4 +79,7 @@ export default class App extends LightningElement {
     openModal(){
         this.template.querySelector('#myModal').style.display = "block";
     }
+    closeModal(){
+        this.template.querySelector('#myModal').style.display = "none";
+    }
 }
