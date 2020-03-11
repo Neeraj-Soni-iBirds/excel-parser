@@ -59,7 +59,12 @@ module.exports = app => {
             loginData.userName,
             loginData.passAndToken
         );
-        console.log('loginResult 123 ' , loginResult._55.id);
+        console.log('loginResult 123 ' , JSON.stringify(loginResult));
+        let test = JSON.stringify(loginResult);
+        console.log.log('test  STRINGIFIED  ' ,test );
+        let testParsed = JSON.parse(test);
+        console.log.og('testParsed  ' , testParsed);
+        console.log(' testParsed._55 ' , testParsed._55);
         res.send({ data: JSON.stringify(loginResult) });
     });
 };
