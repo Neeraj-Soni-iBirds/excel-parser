@@ -103,17 +103,17 @@ export default class App extends LightningElement {
         //this.credentials.userName || this.credentials.password || this.credentials.securityToken || 
         this.credentials.passAndToken = this.credentials.password + this.credentials.securityToken;
         if (this.credentials.userName == '' || this.credentials.password == '' || this.credentials.securityToken == '') {
-            this.template.querySelector('.snackbar').classList.add('show');
-            setTimeout(() => {
-                this.template.querySelector('.snackbar').classList.remove('show');
-            }, 3000);
+            this.showSnackbar('error', 'Please fill all the fields.');
         } else {
             let loginData = JSON.stringify(this.credentials);
             performLogin(loginData).then(result => {
                 if (result.id == '' || result.organizationId == '' || result.url == '') {
                     //Error in Login Process
                     this.openModal();
+                    this.showSnackbar('error', 'Incorrect Credentials !');
+                    this.template.querySelector('.snackbar').classList.add('show', 'errorSnackbar');
                 } else {
+                    this.showSnackbar('success', 'Logged In !');
                     this.isLoggedIn = true;
                     getObjects().then(result => {
                         this.objects = result;
@@ -125,6 +125,16 @@ export default class App extends LightningElement {
     logOut() {
         performLogout().then(result => {
             console.log('logout result = ', result);
+            this.isLoggedIn = false;
+            this.showSnackbar('success', 'Logged Out !');
         });
+    }
+
+    showSnackbar(variant = 'error', message = 'Some Error Occoured !', duration = 3000) {
+        this.template.querySelector('.snackbar').innerHTML= message;
+        this.template.querySelector('.snackbar').classList.add('show' , variant);
+        setTimeout(() => {
+            this.template.querySelector('.snackbar').classList.remove('show' , variant);
+        }, duration);
     }
 }

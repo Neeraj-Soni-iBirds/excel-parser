@@ -63,7 +63,7 @@ module.exports = app => {
     app.get('/api/logout', jsonParser, function (req, res) {
         conn.logout(function (err) {
             if (err) { return console.error(err); }
-            // now the session has been expired.
+            res.send({ data: 'success'});
         });
     });
 };
