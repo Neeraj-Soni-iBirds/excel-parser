@@ -2,6 +2,7 @@ import { LightningElement, track } from 'lwc';
 import { getObjects } from 'data/apiService';  
 import { getFields } from 'data/fieldApiService';
 import { createObject } from 'data/createObjectService';
+import { performLogin } from 'data/loginApiService';
 
 export default class App extends LightningElement {
     @track objects;
@@ -11,6 +12,12 @@ export default class App extends LightningElement {
     @track accessToken= "asd";
     @track isModalOpen = true;
     @track isLoggedIn = false;
+    @track showToast = false;
+    //Login Credentials
+    @track userName;
+    @track password;
+    @track securityToken;
+
     newLookupField;
     
     connectedCallback() {
@@ -70,6 +77,15 @@ export default class App extends LightningElement {
             console.log(this.parsedMetadata);
         });
     }
+    handleUsernameChange(event){
+        this.userName = event.target.value;
+    }
+    handlePasswordChange(event){
+        this.password = event.target.value;
+    }
+    handleTokenChange(event){
+        this.securityToken = event.target.value;
+    }
     handleCreate(event) {
         console.log("INSIDE HANDLECREATE", this.parsedMetadata);
         createObject(this.parsedMetadata).then(result => {
@@ -81,5 +97,17 @@ export default class App extends LightningElement {
     }
     closeModal(){
         this.isModalOpen = false;
+    }
+    loginUser(){
+        if(!(this.userName && this.password && this.securityToken)){
+            this.showToast = true;
+            setTimeout(() => {
+                this.showToast = false;
+            }, 3000);
+        } else {
+            performLogin(this.parsedMetadata).then(result => {
+                this.isLoggedIn = true;
+            });
+        }        
     }
 }
