@@ -1,5 +1,4 @@
 const URL = "/api/login";
-let fields = [];
 export const performLogin = (loginCredentials) => fetch(URL, {
         method: 'POST',
         headers: {
@@ -13,6 +12,5 @@ export const performLogin = (loginCredentials) => fetch(URL, {
         }
         return response.json();
     }).then(result => {
-        fields = result.data;
-        return fields;
+        return result;
     });

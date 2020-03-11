@@ -3,6 +3,7 @@ import { getObjects } from 'data/apiService';
 import { getFields } from 'data/fieldApiService';
 import { createObject } from 'data/createObjectService';
 import { performLogin } from 'data/loginApiService';
+import { performLogout } from 'data/loginApiService';
 
 export default class App extends LightningElement {
     @track objects;
@@ -117,5 +118,10 @@ export default class App extends LightningElement {
                 });
             });
         }
+    }
+    logOut(){
+        performLogout().then(result => {
+            console.log('logout result = ' , result);
+        });
     }
 }

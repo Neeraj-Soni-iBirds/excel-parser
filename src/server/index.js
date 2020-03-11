@@ -8,9 +8,9 @@ let loginResult;
 
 module.exports = app => {
     app.use(bodyParser.urlencoded({ extended: false }))
-    var jsonParser = bodyParser.json() 
+    var jsonParser = bodyParser.json()
     app.get('/api/objects', async (req, res) => {
-        console.log('loginResult   ' , loginResult);
+        console.log('loginResult   ', loginResult);
         var objectNames = [];
         var types = [{ type: 'CustomObject', folder: null }];
         let metadataResult = await conn.metadata.list(types, '36.0');
@@ -28,7 +28,7 @@ module.exports = app => {
         });
         objects.shift();
         console.log('TESTTESTTEST  ', objects);
-        if(objects)
+        if (objects)
             res.send({ data: objects });
     });
 
@@ -51,20 +51,27 @@ module.exports = app => {
         });
     });
 
-    app.post('/api/login', jsonParser , function (req, res) {
-        console.log('req.body  ' , req.body);
+    app.post('/api/login', jsonParser, function (req, res) {
+        console.log('req.body  ', req.body);
         var loginData = req.body;
-        console.log('loginData  ' , loginData);
+        console.log('loginData  ', loginData);
         loginResult = conn.login(
             loginData.userName,
             loginData.passAndToken
         );
-        console.log('loginResult 123 ' , JSON.stringify(loginResult));
+        console.log('loginResult 123 ', JSON.stringify(loginResult));
         let test = JSON.stringify(loginResult);
-        console.log('test  STRINGIFIED  ' ,test );
+        console.log('test  STRINGIFIED  ', test);
         let testParsed = JSON.parse(test);
-        console.log('testParsed  ' , testParsed);
-        console.log(' testParsed._55 ' , testParsed._55);
+        console.log('testParsed  ', testParsed);
+        console.log(' testParsed._55 ', testParsed._55);
         res.send({ data: JSON.stringify(loginResult) });
+    });
+
+    app.get('/api/logout', jsonParser, function (req, res) {
+        conn.logout(function (err) {
+            if (err) { return console.error(err); }
+            // now the session has been expired.
+        });
     });
 };
