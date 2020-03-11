@@ -58,9 +58,9 @@ module.exports = app => {
                 loginData.userName,
                 loginData.passAndToken
             );
-        } catch (ex) {
-            console.log('EXCEPTION::  ' , ex)
-            res.send({ data: 'INVALID DATA' });
+        } catch (e) {
+            console.log('EXCEPTION::  ' , e)
+            res.send({ data: e.message });
         }
         res.send({ data: loginResult });
     });

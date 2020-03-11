@@ -103,6 +103,7 @@ export default class App extends LightningElement {
         } else {
             let loginData = JSON.stringify(this.credentials);
             performLogin(loginData).then(result => {
+                console.log('PerformLogin Result  ' , result);
                 if (result.id == '' || result.organizationId == '' || result.url == '') {
                     //Error in Login Process
                     this.openModal();
