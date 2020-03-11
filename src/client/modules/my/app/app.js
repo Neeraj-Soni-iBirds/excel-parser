@@ -108,7 +108,8 @@ export default class App extends LightningElement {
             }, 3000);
         } else {
             console.log('Logindata before hitting api:: ' , JSON.stringify(this.credentials));
-            performLogin(JSON.stringify(this.credentials)).then(result => {
+            let loginData = JSON.stringify(this.credentials);
+            performLogin(loginData).then(result => {
                 console.log('Login Result ::  ' , result);
                 this.isLoggedIn = true;
                 getObjects().then(result => {
