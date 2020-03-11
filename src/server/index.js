@@ -8,7 +8,7 @@ let loginResult;
 
 module.exports = app => {
     app.use(bodyParser.urlencoded({ extended: false }))
-    var jsonParser = bodyParser.json()
+    var jsonParser = bodyParser.json() 
     app.get('/api/objects', async (req, res) => {
         console.log('loginResult   ' , loginResult);
         var objectNames = [];
