@@ -7,7 +7,7 @@ import { performLogout } from 'data/logoutApiService';
 
 export default class App extends LightningElement {
     @track objects = [];
-    @track objectMetadata = [];
+    @track objectMetadata;
     @track hasSelectedObject = true;
     @track parsedMetadata = {};
     @track isModalOpen = true;
@@ -26,7 +26,7 @@ export default class App extends LightningElement {
 
     handleChange(event) {
         this.hasSelectedObject = false;
-        this.objectMetadata = [];
+        this.objectMetadata = null;
         this.showLoader = true;
         getFields(event.target.value).then(result => {
             this.objectMetadata = result;
@@ -100,7 +100,7 @@ export default class App extends LightningElement {
         this.isModalOpen = false;
     }
     loginUser() {
-        this.objectMetadata = [];
+        this.objectMetadata = null;
         this.credentials.passAndToken = this.credentials.password + this.credentials.securityToken;
         if (this.credentials.userName == '' || this.credentials.password == '' || this.credentials.securityToken == '') {
             this.showSnackbar('error', 'Please fill all the fields.');
