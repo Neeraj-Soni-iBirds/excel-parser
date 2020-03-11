@@ -5,6 +5,9 @@
         <template if:true={isLoggedIn}>
             <!-- <button onclick={openModal} style="width:auto;right: 37px;top: 43px;position: absolute;">Login</button> -->
         </template>
+
+        <!-- Snackbar -->
+        <div class="snackbar">Please fill all the fields.</div>
     </header>
     <main class="content">
 
@@ -58,8 +61,5 @@
             </template>
         </template>
 
-        <template if:true={showToast}>
-            <div class="snackbar">Please fill all the fields.</div>
-        </template>
     </main>
 </template>

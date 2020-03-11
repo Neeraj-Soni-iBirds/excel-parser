@@ -12,7 +12,6 @@ export default class App extends LightningElement {
     @track accessToken = "asd";
     @track isModalOpen = true;
     @track isLoggedIn = false;
-    @track showToast = false;
 
     //Login Credentials
     @track credentials = {
@@ -102,11 +101,9 @@ export default class App extends LightningElement {
         this.isModalOpen = false;
     }
     loginUser() {
-        if (!(this.credentials.userName && this.credentials.password && this.credentials.securityToken)) {
-            this.showToast = true;
+        if (!(this.credentials.userName && this.credentials.password && this.credentials.securityToken && this.credentials.userName == '' && this.credentials.password == '' && this.credentials.securityToken == '')) {
             this.template.querySelector('.snackbar').classList.add('show');
             setTimeout(() => {
-                this.showToast = false;
                 this.template.querySelector('.snackbar').classList.remove('show');
             }, 3000);
         } else {
