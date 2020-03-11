@@ -50,6 +50,7 @@ module.exports = app => {
     });
 
     app.post('/api/login', function (req, res) {
+        console.log('req.body  ' , req.body);
         var loginData = JSON.parse(req.body);
         console.log('loginData  ' , loginData);
         loginResult = conn.login(
