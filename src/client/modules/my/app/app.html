@@ -1,28 +1,35 @@
-
 <template>
     <header>
         <img src="resources/lwc.png" alt="App logo" />
         <h2>Saleforce Object Cloner</h2>
+        <button onclick="document.getElementById('myModal').style.display='block'"
+            style="width:auto;right: 37px;top: 43px;position: absolute;">Login</button>
     </header>
     <main class="content">
 
         <!-- Modal Start -->
-        <div id="myModal" class="modal" style="display: block;">
-            <div style="margin-top: 20px;">
-                <span class="close" style="width: 10%;margin-top: -30px;color: white;">×</span>
-                <!-- Modal content -->
-                <div class="modal-content">
-                    <div class="container">
-                        <label for="uname"><b>Username</b></label>
-                        <input type="text" placeholder="Enter Username" name="uname" required>
 
-                        <label for="psw"><b>Password</b></label>
-                        <input type="password" placeholder="Enter Password" name="psw" required>
+        <div id="myModal" class="modal">
+            <form class="modal-content animate" action="/action_page.php" method="post">
+                <div class="container">
+                    <label for="uname"><b>Username</b></label>
+                    <input type="text" placeholder="Enter Username" name="uname" required>
 
-                        <button type="submit">Login</button>
-                    </div>
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="psw" required>
+
+                    <button type="submit">Login</button>
+                    <label>
+                        <input type="checkbox" checked="checked" name="remember"> Remember me
+                    </label>
                 </div>
-            </div>
+
+                <div class="container" style="background-color:#f1f1f1">
+                    <button type="button" onclick="document.getElementById('id01').style.display='none'"
+                        class="cancelbtn">Cancel</button>
+                    <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+            </form>
         </div>
         <!-- Modal End -->
 
