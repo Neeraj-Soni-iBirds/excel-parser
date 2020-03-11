@@ -9,17 +9,16 @@ export default class App extends LightningElement {
     @track hasSelectedObject;
     @track parsedMetadata;
     @track accessToken= "asd";
-    @track isModalOpen;
+    @track isModalOpen = true;
+    @track isLoggedIn = false;
     newLookupField;
     
     connectedCallback() {
-        this.isModalOpen = false;
         this.hasSelectedObject = true;
         getObjects().then(result => {
             this.objects = result;
         });
     }
-
     handleChange(event) {
         this.hasSelectedObject = false;
         this.objectMetadata = [];
@@ -71,7 +70,6 @@ export default class App extends LightningElement {
             console.log(this.parsedMetadata);
         });
     }
-
     handleCreate(event) {
         console.log("INSIDE HANDLECREATE", this.parsedMetadata);
         createObject(this.parsedMetadata).then(result => {

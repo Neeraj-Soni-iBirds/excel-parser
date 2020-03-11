@@ -2,51 +2,56 @@
     <header>
         <img src="resources/lwc.png" alt="App logo" />
         <h2>Saleforce Object Cloner</h2>
-        <button onclick={openModal} style="width:auto;right: 37px;top: 43px;position: absolute;">Login</button>
+        <template if:true={isLoggedIn}>
+            <!-- <button onclick={openModal} style="width:auto;right: 37px;top: 43px;position: absolute;">Login</button> -->
+        </template>
     </header>
     <main class="content">
 
         <!-- Modal Start -->
-        <template if:true={isModalOpen}>
-            <div id="myModal" class="modal">
-                <form class="modal-content animate" >
-                    <span onclick={closeModal} class="closeButton">X</span>
-                    <div class="container">
-                        <label for="uname"><b>Username</b></label>
-                        <input type="text" placeholder="Enter Username" name="uname" required>
+        <template if:false={isLoggedIn}>
+            <template if:true={isModalOpen}>
+                <div id="myModal" class="modal">
+                    <form class="modal-content animate">
+                        <span onclick={closeModal} class="closeButton animateOut">X</span>
+                        <div class="container">
+                            <label for="uname"><b>Username</b></label>
+                            <input type="text" placeholder="Enter Username" name="uname" required>
 
-                        <label for="psw"><b>Password</b></label>
-                        <input type="password" placeholder="Enter Password" name="psw" required>
+                            <label for="psw"><b>Password</b></label>
+                            <input type="password" placeholder="Enter Password" name="psw" required>
 
-                        <label for="secToken"><b>Securoty Token</b></label>
-                        <input type="text" placeholder="Enter Securoty Token" name="secToken" required>
-                        <div style="text-align: center;">
-                            <button type="submit" class="animateOut"
-                                style="width: auto;background: #0288d1;">Login</button>
+                            <label for="secToken"><b>Securoty Token</b></label>
+                            <input type="text" placeholder="Enter Securoty Token" name="secToken" required>
+                            <div style="text-align: center;">
+                                <button type="submit" style="width: auto;background: #0288d1;">Login</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                </div>
+            </template>
         </template>
         <!-- Modal End -->
 
-        <template if:false={objects}>
-            <div class="loader"></div>
-        </template>
-        <template if:true={objects}>
-            Object Names: <br> <br>
-            <select name="" id="names" onchange={handleChange}>
-                <option value="none">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--NONE--</option>
-                <template for:each={objects} for:item="obj">
-                    <option key={obj.id} value={obj.objName}>{obj.objName}</option>
-                </template>
-            </select>
-            <template if:true={objectMetadata}>
-                <button style="margin-left:800px; width:auto;" onclick={handleCreate}>Create New Object</button>
-                {objectMetadata}
-            </template>
-            <template if:false={hasSelectedObject}>
+        <template if:true={isLoggedIn}>
+            <template if:false={objects}>
                 <div class="loader"></div>
+            </template>
+            <template if:true={objects}>
+                Object Names: <br> <br>
+                <select name="" id="names" onchange={handleChange}>
+                    <option value="none">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--NONE--</option>
+                    <template for:each={objects} for:item="obj">
+                        <option key={obj.id} value={obj.objName}>{obj.objName}</option>
+                    </template>
+                </select>
+                <template if:true={objectMetadata}>
+                    <button style="margin-left:800px; width:auto;" onclick={handleCreate}>Create New Object</button>
+                    {objectMetadata}
+                </template>
+                <template if:false={hasSelectedObject}>
+                    <div class="loader"></div>
+                </template>
             </template>
         </template>
     </main>
