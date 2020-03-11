@@ -112,15 +112,16 @@ export default class App extends LightningElement {
                 if(result.error){
                     this.openModal();
                     this.showSnackbar('error', 'Login Unsuccessful !');
+                    this.showLoader = false;
                 } else if(result.data){
                     this.showSnackbar('success', 'Logged In !');
                     this.isLoggedIn = true;
                     getObjects().then(result => {
                         this.objects = result;
                     });
+                    this.showLoader = false;
                 }
             });
-            this.showLoader = false;
         }
     }
     logOut() {
