@@ -101,7 +101,8 @@ export default class App extends LightningElement {
         this.isModalOpen = false;
     }
     loginUser() {
-        if (!(this.credentials.userName && this.credentials.password && this.credentials.securityToken && this.credentials.userName == '' && this.credentials.password == '' && this.credentials.securityToken == '')) {
+        //this.credentials.userName || this.credentials.password || this.credentials.securityToken || 
+        if (this.credentials.userName == '' || this.credentials.password == '' || this.credentials.securityToken == '') {
             this.template.querySelector('.snackbar').classList.add('show');
             setTimeout(() => {
                 this.template.querySelector('.snackbar').classList.remove('show');
