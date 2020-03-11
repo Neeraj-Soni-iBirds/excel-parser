@@ -101,8 +101,10 @@ export default class App extends LightningElement {
     loginUser(){
         if(!(this.userName && this.password && this.securityToken)){
             this.showToast = true;
+            this.template.querySelector('.snackbar').classList.add('show'); 
             setTimeout(() => {
                 this.showToast = false;
+                this.template.querySelector('.snackbar').classList.remove('show'); 
             }, 3000);
         } else {
             performLogin(this.parsedMetadata).then(result => {
