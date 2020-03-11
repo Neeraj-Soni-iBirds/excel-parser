@@ -100,7 +100,7 @@ export default class App extends LightningElement {
         this.isModalOpen = false;
     }
     loginUser() {
-        //this.credentials.userName || this.credentials.password || this.credentials.securityToken || 
+        this.objectMetadata = [];
         this.credentials.passAndToken = this.credentials.password + this.credentials.securityToken;
         if (this.credentials.userName == '' || this.credentials.password == '' || this.credentials.securityToken == '') {
             this.showSnackbar('error', 'Please fill all the fields.');
