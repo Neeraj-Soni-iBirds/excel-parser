@@ -51,11 +51,11 @@ module.exports = app => {
         });
     });
 
-    app.post('/api/login', jsonParser, function (req, res) {
+    app.post('/api/login', jsonParser, async function (req, res) {
         console.log('req.body  ', req.body);
         var loginData = req.body;
         console.log('loginData  ', loginData);
-        loginResult = conn.login(
+        loginResult = await conn.login(
             loginData.userName,
             loginData.passAndToken
         );
