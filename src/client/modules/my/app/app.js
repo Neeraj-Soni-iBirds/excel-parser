@@ -104,7 +104,7 @@ export default class App extends LightningElement {
             let loginData = JSON.stringify(this.credentials);
             performLogin(loginData).then(result => {
                 console.log('PerformLogin Result  ' , result.data);
-                if (( result.data.id && result.data.id == '') || ( result.data.organizationId && result.data.organizationId == '' ) || ( result.data.url && result.data.url == '')) {
+                if (( result.data.id || result.data.id == '') && ( result.data.organizationId || result.data.organizationId == '' ) && ( result.data.url || result.data.url == '')) {
                     //Error in Login Process
                     this.openModal();
                     this.showSnackbar('error', 'Something Went Wrong !');
