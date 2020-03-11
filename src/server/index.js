@@ -54,7 +54,7 @@ module.exports = app => {
         console.log('loginData  ' , loginData);
         loginResult = conn.login(
             loginData.userName,
-            loginData.password + loginData.securityToken
+            loginData.passAndToken
         );
         console.log('loginResult  ' , loginResult);
         res.send({ data: JSON.stringify(loginResult) });
