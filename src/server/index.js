@@ -60,7 +60,7 @@ module.exports = app => {
             );
         } catch (e) {
             console.log('EXCEPTION::  ' , e)
-            res.send({ data: e.message });
+            res.send({ error: e.message });
         }
         res.send({ data: loginResult });
     });
