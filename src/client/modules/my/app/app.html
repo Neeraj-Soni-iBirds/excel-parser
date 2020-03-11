@@ -12,7 +12,7 @@
             <!-- Modal Start -->
             <template if:true={isModalOpen}>
                 <div id="myModal" class="modal">
-                    <form class="modal-content animate">
+                    <div class="modal-content animate">
                         <span onclick={closeModal} class="closeButton">X</span>
                         <div class="container">
                             <label for="uname"><b>Username</b></label>
@@ -24,10 +24,10 @@
                             <label for="secToken"><b>Securoty Token</b></label>
                             <input value={credentials.securityToken} onchange={handleTokenChange} type="text" placeholder="Enter Securoty Token" name="secToken" >
                             <div style="text-align: center;">
-                                <button onclick={loginUser} type="submit" style="width: auto;background: #0288d1;">Login</button>
+                                <button onclick={loginUser}  style="width: auto;background: #0288d1;">Login</button>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </template>
             <!-- Modal End -->
