@@ -16,9 +16,9 @@ export default class App extends LightningElement {
 
     //Login Credentials
     @track credentials = {
-        userName= '',
-        password='',
-        securityToken=''
+        userName : '',
+        password :'',
+        securityToken :''
     }
 
     newLookupField;
