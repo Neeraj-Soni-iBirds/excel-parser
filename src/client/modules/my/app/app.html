@@ -8,12 +8,12 @@
     </header>
     <main class="content">
 
-        <!-- Modal Start -->
         <template if:false={isLoggedIn}>
+            <!-- Modal Start -->
             <template if:true={isModalOpen}>
                 <div id="myModal" class="modal">
                     <form class="modal-content animate">
-                        <span onclick={closeModal} class="closeButton animateOut">X</span>
+                        <span onclick={closeModal} class="closeButton">X</span>
                         <div class="container">
                             <label for="uname"><b>Username</b></label>
                             <input type="text" placeholder="Enter Username" name="uname" required>
@@ -30,8 +30,11 @@
                     </form>
                 </div>
             </template>
+            <!-- Modal End -->
+            <h1 style="font-family: cursive;text-align: center;">
+                You need to <span onclick={openModal}>Log-in</span> to proceed
+            </h1>
         </template>
-        <!-- Modal End -->
 
         <template if:true={isLoggedIn}>
             <template if:false={objects}>
