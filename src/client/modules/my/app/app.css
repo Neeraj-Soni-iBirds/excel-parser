@@ -175,7 +175,7 @@ span.psw {
     margin: 5% auto 15% auto;
     /* 5% from the top, 15% from the bottom and centered */
     border: 1px solid #888;
-    width: 80%;
+    width: 50%;
     /* Could be more or less, depending on screen size */
 }
 
@@ -230,4 +230,14 @@ span.psw {
     .cancelbtn {
         width: 100%;
     }
+}
+
+.closeButton {
+    cursor: -webkit-grab; 
+    cursor: grab;
+    float: right;
+    margin-top: -31px;
+    margin-right: 8px;
+    color: white;
+    font-size: 25px;
 }
