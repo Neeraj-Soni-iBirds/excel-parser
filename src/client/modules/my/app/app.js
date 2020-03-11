@@ -3,7 +3,7 @@ import { getObjects } from 'data/apiService';
 import { getFields } from 'data/fieldApiService';
 import { createObject } from 'data/createObjectService';
 import { performLogin } from 'data/loginApiService';
-import { performLogout } from 'data/loginApiService';
+import { performLogout } from 'data/logoutApiService';
 
 export default class App extends LightningElement {
     @track objects;
