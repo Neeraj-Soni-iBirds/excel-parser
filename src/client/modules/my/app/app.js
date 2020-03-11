@@ -6,12 +6,13 @@ import { performLogin } from 'data/loginApiService';
 import { performLogout } from 'data/logoutApiService';
 
 export default class App extends LightningElement {
-    @track objects;
+    @track objects = [];
     @track objectMetadata = [];
     @track hasSelectedObject = true;
-    @track parsedMetadata;
+    @track parsedMetadata = {};
     @track isModalOpen = true;
     @track isLoggedIn = false;
+    @track showLoader = false;
 
     //Login Credentials
     @track credentials = {
@@ -26,6 +27,7 @@ export default class App extends LightningElement {
     handleChange(event) {
         this.hasSelectedObject = false;
         this.objectMetadata = [];
+        this.showLoader = true;
         getFields(event.target.value).then(result => {
             this.objectMetadata = result;
             this.hasSelectedObject = true;
@@ -73,6 +75,7 @@ export default class App extends LightningElement {
             this.parsedMetadata = JSON.stringify(this.parsedMetadata);
             console.log(this.parsedMetadata);
         });
+        this.showLoader = false;
     }
     handleUsernameChange(event) {
         this.credentials.userName = event.target.value;
@@ -84,10 +87,11 @@ export default class App extends LightningElement {
         this.credentials.securityToken = event.target.value;
     }
     handleCreate(event) {
-        console.log("INSIDE HANDLECREATE", this.parsedMetadata);
+        this.showLoader = true;
         createObject(this.parsedMetadata).then(result => {
             console.log("Object Created !! ", result);
         });
+        this.showLoader = false;
     }
     openModal() {
         this.isModalOpen = true;
@@ -101,12 +105,13 @@ export default class App extends LightningElement {
         if (this.credentials.userName == '' || this.credentials.password == '' || this.credentials.securityToken == '') {
             this.showSnackbar('error', 'Please fill all the fields.');
         } else {
+            this.showLoader = true;
             let loginData = JSON.stringify(this.credentials);
             performLogin(loginData).then(result => {
                 console.log('PerformLogin Result  ' , result.data);
                 if(result.error){
                     this.openModal();
-                    this.showSnackbar('error', result.error);
+                    this.showSnackbar('error', 'Login Unsuccessful !');
                 } else if(result.data){
                     this.showSnackbar('success', 'Logged In !');
                     this.isLoggedIn = true;
@@ -115,14 +120,17 @@ export default class App extends LightningElement {
                     });
                 }
             });
+            this.showLoader = false;
         }
     }
     logOut() {
+        this.showLoader = true;
         performLogout().then(result => {
             console.log('logout result = ', result);
             this.isLoggedIn = false;
             this.showSnackbar('success', 'Logged Out !');
         });
+        this.showLoader = false;
     }
     showSnackbar(variant = 'error', message = 'Some Error Occoured !', duration = 3000) {
         this.template.querySelector('.snackbar').innerHTML= message;
