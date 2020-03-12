@@ -125,7 +125,7 @@ export default class App extends LightningElement {
         this.showLoader = true;
         performLogout().then(result => {
             if(result.error){
-                this.showSnackbar('success', 'Error when Logging Out !');
+                this.showSnackbar('error', 'Error when Logging Out !');
             } else if(result.data){
                 this.isLoggedIn = false;
                 this.showSnackbar('success', 'Logged Out !');
