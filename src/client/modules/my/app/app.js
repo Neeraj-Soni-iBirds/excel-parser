@@ -65,7 +65,6 @@ export default class App extends LightningElement {
                     if (!element.fullName.endsWith("__c")) {
                         element.fullName = element.fullName + "_std__c"
                     }
-                    //console.log(element.label);
                 });
                 this.parsedMetadata.fields.push(this.newLookupField);
             }
@@ -73,7 +72,6 @@ export default class App extends LightningElement {
             var key = "actionOverrides";
             delete this.parsedMetadata[key];
             this.parsedMetadata = JSON.stringify(this.parsedMetadata);
-            console.log(this.parsedMetadata);
         });
         this.showLoader = false;
     }
@@ -108,7 +106,6 @@ export default class App extends LightningElement {
             this.showLoader = true;
             let loginData = JSON.stringify(this.credentials);
             performLogin(loginData).then(result => {
-                console.log('PerformLogin Result  ' , result.data);
                 if(result.error){
                     this.openModal();
                     this.showSnackbar('error', 'Login Unsuccessful !');
@@ -127,9 +124,12 @@ export default class App extends LightningElement {
     logOut() {
         this.showLoader = true;
         performLogout().then(result => {
-            console.log('logout result = ', result);
-            this.isLoggedIn = false;
-            this.showSnackbar('success', 'Logged Out !');
+            if(result.error){
+                this.showSnackbar('success', 'Error when Logging Out !');
+            } else if(result.data){
+                this.isLoggedIn = false;
+                this.showSnackbar('success', 'Logged Out !');
+            }
         });
         this.showLoader = false;
     }

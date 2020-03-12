@@ -10,7 +10,6 @@ module.exports = app => {
     app.use(bodyParser.urlencoded({ extended: false }))
     var jsonParser = bodyParser.json()
     app.get('/api/objects', async (req, res) => {
-        console.log('loginResult   ', loginResult);
         var objectNames = [];
         var types = [{ type: 'CustomObject', folder: null }];
         let metadataResult = await conn.metadata.list(types, '36.0');
@@ -27,7 +26,6 @@ module.exports = app => {
             objects.push(obj);
         });
         objects.shift();
-        console.log('TESTTESTTEST  ', objects);
         if (objects)
             res.send({ data: objects });
     });
@@ -59,7 +57,6 @@ module.exports = app => {
                 loginData.passAndToken
             );
         } catch (e) {
-            console.log('EXCEPTION::  ' , e)
             res.send({ error: e.message });
         }
         res.send({ data: loginResult });
@@ -67,7 +64,7 @@ module.exports = app => {
 
     app.get('/api/logout', jsonParser, function (req, res) {
         conn.logout(function (err) {
-            if (err) { return console.error(err); }
+            if (err) { res.send({ error: err }); }
             res.send({ data: 'success' });
         });
     });
