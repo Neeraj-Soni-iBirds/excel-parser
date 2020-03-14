@@ -1,10 +1,7 @@
 <template>
     <header>
         <img src="resources/lwc.png" alt="App logo" />
-        <h2>Saleforce Object Cloner</h2>
-        <template if:true={isLoggedIn}>
-            <button onclick={logOut} style="width:auto;right: 37px;top: 43px;position: absolute;">Logout</button>
-        </template>
+        <h2>Excel Parser</h2>
 
         <!-- Snackbar -->
         <div class="snackbar"></div>
@@ -13,56 +10,7 @@
         </template>
     </header>
     <main class="content">
-
-        <template if:false={isLoggedIn}>
-            <!-- Modal Start -->
-            <template if:true={isModalOpen}>
-                <div id="myModal" class="modal">
-                    <div class="modal-content animate">
-                        <span onclick={closeModal} class="closeButton">X</span>
-                        <div class="container">
-                            <label for="uname"><b>Username</b></label>
-                            <input value={credentials.userName} onchange={handleUsernameChange} type="text" placeholder="Enter Username" name="uname" >
-
-                            <label for="psw"><b>Password</b></label>
-                            <input value={credentials.password} onchange={handlePasswordChange} type="password" placeholder="Enter Password" name="psw" >
-
-                            <label for="secToken"><b>Securoty Token</b></label>
-                            <input value={credentials.securityToken} onchange={handleTokenChange} type="text" placeholder="Enter Securoty Token" name="secToken" >
-                            <div style="text-align: center;">
-                                <button onclick={loginUser}  style="width: auto;background: #0288d1;">Login</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </template>
-            <!-- Modal End -->
-            <h1>
-                You need to <span style="cursor:pointer;" onclick={openModal}>Log-in</span> to proceed
-            </h1>
-        </template>
-
-        <template if:true={isLoggedIn}>
-            <template if:false={objects}>
-                <div class="loader"></div>
-            </template>
-            <template if:true={objects}>
-                Object Names: <br> <br>
-                <select name="" id="names" onchange={handleChange}>
-                    <option value="none">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--NONE--</option>
-                    <template for:each={objects} for:item="obj">
-                        <option key={obj.id} value={obj.objName}>{obj.objName}</option>
-                    </template>
-                </select>
-                <template if:true={objectMetadata}>
-                    <button style="margin-left:800px; width:auto;" onclick={handleCreate}>Create New Object</button>
-                    {objectMetadata}
-                </template>
-                <template if:false={hasSelectedObject}>
-                    <div class="loader"></div>
-                </template>
-            </template>
-        </template>
-
+        <input type="file" onchange={handleFilesChange} name="fileToUpload" id="fileToUpload">
+        <button onclick={handleSave}>Save File</button>
     </main>
 </template>
