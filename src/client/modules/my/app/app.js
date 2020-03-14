@@ -1,4 +1,5 @@
 import { LightningElement, track } from 'lwc';
+import { saveFile } from 'data/saveFileService';
 
 export default class App extends LightningElement {
 
@@ -41,10 +42,12 @@ export default class App extends LightningElement {
             let base64 = 'base64,';
             this.content = this.fileContents.indexOf(base64) + base64.length;
             this.fileContents = this.fileContents.substring(this.content);
-            console.log('fileContents  ' , this.fileContents);
-            // call the uploadProcess method 
+            //call the uploadProcess method 
             //this.saveToFile();
-            //Put Logic to save File to DB
+            console.log('encodeURIComponent(this.fileContents)  ' , encodeURIComponent(this.fileContents));
+            saveFile(encodeURIComponent(this.fileContents)).then(result => {
+                console.log("Object Created !! ", result);
+            });
         });
         this.showLoader = false;
         this.fileReader.readAsDataURL(this.file);
