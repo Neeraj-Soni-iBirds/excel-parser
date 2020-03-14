@@ -5,6 +5,11 @@ export default class App extends LightningElement {
     @track showLoader = false;
     @track fileName = '';
     filesUploaded = [];
+    file;
+    MAX_FILE_SIZE = 1500000;
+    fileContents;
+    fileReader;
+    content;
 
     handleFilesChange(event) {
         if (event.target.files.length > 0) {
@@ -19,6 +24,30 @@ export default class App extends LightningElement {
         } else {
             this.fileName = 'Please select file to upload!!';
         }
+    }
+
+    uploadHelper() {
+        this.file = this.filesUploaded[0];
+        if (this.file.size > this.MAX_FILE_SIZE) {
+            window.console.log('File Size is to long');
+            return;
+        }
+        this.showLoader = true;
+        // create a FileReader object 
+        this.fileReader = new FileReader();
+        // set onload function of FileReader object  
+        this.fileReader.onloadend = (() => {
+            this.fileContents = this.fileReader.result;
+            let base64 = 'base64,';
+            this.content = this.fileContents.indexOf(base64) + base64.length;
+            this.fileContents = this.fileContents.substring(this.content);
+            console.log('fileContents  ' , this.fileContents);
+            // call the uploadProcess method 
+            //this.saveToFile();
+            //Put Logic to save File to DB
+        });
+        this.showLoader = false;
+        this.fileReader.readAsDataURL(this.file);
     }
 
     showSnackbar(variant = 'error', message = 'Some Error Occoured !', duration = 3000) {

@@ -10,6 +10,7 @@
         </template>
     </header>
     <main class="content">
+        {fileName}
         <input type="file" onchange={handleFilesChange} name="fileToUpload" id="fileToUpload">
         <button onclick={handleSave}>Save File</button>
     </main>
