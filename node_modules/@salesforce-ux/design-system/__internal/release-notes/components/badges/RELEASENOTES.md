@@ -4,6 +4,16 @@
 
 <!-- ## [Unreleased] -->
 
+## 2.11.5
+
+- Added examples for communicating Success, Warning and Error states.
+
+## 2.11.0
+
+### Changed
+
+- Added `display: inline-flex` and `align-items: center` to badge to center content vertically
+
 ## 2.8.0
 
 ### Added

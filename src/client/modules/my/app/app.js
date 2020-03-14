@@ -48,7 +48,7 @@ export default class App extends LightningElement {
             saveFile(encodeURIComponent(this.fileContents)).then(result => {
                 console.log("Object Created !! ", result);
             });
-        });
+        }); 
         this.showLoader = false;
         this.fileReader.readAsDataURL(this.file);
     }
