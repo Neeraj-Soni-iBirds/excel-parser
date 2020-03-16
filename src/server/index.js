@@ -5,6 +5,8 @@ var jsforce = require('jsforce');
 const { Client } = require('pg');
 var conn = new jsforce.Connection();
 var bodyParser = require('body-parser');
+var XLSX = require('xlsx');
+
 let loginResult;
 
 const client = new Client({
@@ -17,21 +19,10 @@ module.exports = app => {
     app.use(bodyParser.urlencoded({ extended: false }))
     var jsonParser = bodyParser.json()
 
-    app.post('/api/saveFile', jsonParser, async function (req, res) {
-        //Decoding the Excel file to insert into DB
-        let data = req.body.data;
-        let fileName = req.body.name;
-        let buff = new Buffer.from(data, 'base64');
-        let text = buff.toString('ascii');
-        
-        let test = await client.query('SELECT * FROM excelParser');
-        console.log('testtesttestt ::  ' , test);
-
-        client.query('INSERT INTO excelParser( fileName, fileData)VALUES('+ fileName +',' +  text + ')', (err, res) => {
-            if (err) console.log('ERROR:: ' , err);
-            console.log('Result:: ' , res);
-            client.end();
-        });
+    app.post('/api/saveFile', function (req, res) {
+        var workbook = XLSX.readFile(req.body);
+        data = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
+        console.log('Workbook Data  ',data);
         res.send({ data: 'success' });
     });
 
