@@ -30,6 +30,7 @@ export default class App extends LightningElement {
     uploadHelper() {
         this.showLoader = true;
         this.file = this.filesUploaded[0];
+        console.log('filefilefile :: ' ,this.file);
         if (this.file.size > this.MAX_FILE_SIZE) {
             window.console.log('File Size is to long');
             return;
@@ -45,6 +46,8 @@ export default class App extends LightningElement {
             this.fileContents = this.fileContents.substring(this.content);
             //call the uploadProcess method 
             //this.saveToFile();
+
+            console.log('file contents ::: ' ,this.fileContents );
             let sheetData = JSON.stringify(
                 {
                     data: encodeURIComponent(this.fileContents),
