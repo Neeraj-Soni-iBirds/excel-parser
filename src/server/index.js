@@ -18,21 +18,19 @@ module.exports = app => {
     var jsonParser = bodyParser.json()
 
     app.post('/api/saveFile', jsonParser, function (req, res) {
-        console.log('req.body  ', req.body.data);
-
         //Decoding the Excel file to insert into DB
         let data = req.body.data;
         let fileName = req.body.name;
         let buff = new Buffer(data, 'base64');
         let text = buff.toString('ascii');
         
-        console.log('fileName  ' , fileName);
         client.query('SELECT * FROM excelParser', (err, res) => {
+            if (err) console.log('ERROR:: ' , err);
             console.log('RESULT:: ' , JSON.stringify(res));
         });
 
         client.query('INSERT INTO excelParser( fileName, fileData)VALUES('+ fileName +',' +  text + ')', (err, res) => {
-            if (err) throw err;
+            if (err) console.log('ERROR:: ' , err);
             console.log('Result:: ' , res);
             client.end();
         });
