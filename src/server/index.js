@@ -18,7 +18,7 @@ module.exports = app => {
     var jsonParser = bodyParser.json()
 
     //    app.post('/api/saveFile', jsonParser, function (req, res) {
-    app.post('/api/saveFile', function (req, res) {
+    app.post('/api/saveFile', jsonParser , function (req, res) {
         console.log('req.body  ', req.body);
         // client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
         //     if (err) throw err;
