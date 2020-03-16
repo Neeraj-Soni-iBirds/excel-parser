@@ -17,17 +17,15 @@ module.exports = app => {
     app.use(bodyParser.urlencoded({ extended: false }))
     var jsonParser = bodyParser.json()
 
-    app.post('/api/saveFile', jsonParser, function (req, res) {
+    app.post('/api/saveFile', jsonParser, async function (req, res) {
         //Decoding the Excel file to insert into DB
         let data = req.body.data;
         let fileName = req.body.name;
         let buff = new Buffer(data, 'base64');
         let text = buff.toString('ascii');
         
-        client.query('SELECT * FROM excelParser', (err, res) => {
-            if (err) console.log('ERROR:: ' , err);
-            console.log('RESULT:: ' , JSON.stringify(res));
-        });
+        let test = await client.query('SELECT * FROM excelParser');
+        console.log('testtesttestt ::  ' , test);
 
         client.query('INSERT INTO excelParser( fileName, fileData)VALUES('+ fileName +',' +  text + ')', (err, res) => {
             if (err) console.log('ERROR:: ' , err);
