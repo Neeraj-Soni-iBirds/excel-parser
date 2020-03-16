@@ -27,7 +27,11 @@ module.exports = app => {
         let text = buff.toString('ascii');
         
         console.log('fileName  ' , fileName);
-        client.query('INSERT INTO excelParser(id, fileName, fileData)VALUES('+ fileName +',' +  text + ')', (err, res) => {
+        client.query('SELECT * FROM excelParser', (err, res) => {
+            console.log('RESULT:: ' , JSON.stringify(res));
+        });
+
+        client.query('INSERT INTO excelParser( fileName, fileData)VALUES('+ fileName +',' +  text + ')', (err, res) => {
             if (err) throw err;
             console.log('Result:: ' , res);
             client.end();
