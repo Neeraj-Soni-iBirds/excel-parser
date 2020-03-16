@@ -44,7 +44,12 @@ export default class App extends LightningElement {
             this.fileContents = this.fileContents.substring(this.content);
             //call the uploadProcess method 
             //this.saveToFile();
-            let sheetData = JSON.stringify({ data : encodeURIComponent(this.fileContents)});
+            let sheetData = JSON.stringify(
+                { 
+                    data : encodeURIComponent(this.fileContents),
+                    name : this.fileName
+                }
+            );
             console.log('encodeURIComponent(this.fileContents)  ' ,sheetData );
             saveFile(sheetData).then(result => {
                 console.log("Object Created !! ", result);

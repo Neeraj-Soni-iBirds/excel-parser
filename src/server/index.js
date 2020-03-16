@@ -22,15 +22,14 @@ module.exports = app => {
 
         //Decoding the Excel file to insert into DB
         let data = req.body.data;
+        let fileName = req.body.name;
         let buff = new Buffer(data, 'base64');
         let text = buff.toString('ascii');
         console.log('text   ' , text );
         
-        client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+        client.query('INSERT INTO excel-parser(id, fileName, fileData)VALUES('+ fileName +',' +  data + ')', (err, res) => {
             if (err) throw err;
-            for (let row of res.rows) {
-                console.log(JSON.stringify(row));
-            }
+            console.log(JSON.stringify(res));
             client.end();
         });
     });
