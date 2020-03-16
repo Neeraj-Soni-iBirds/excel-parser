@@ -21,10 +21,11 @@ module.exports = app => {
 
     app.post('/api/saveFile', jsonParser, function (req, res) {
         let data = req.body.data;
+        console.log('data before parsing ' , data);
         let buff = new Buffer.from(data, 'base64');
         var workbook = XLSX.readFile(buff);
-        data = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
-        console.log('Workbook Data  ',data);
+        let result = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
+        console.log('Workbook Data  ',result);
         res.send({ data: 'success' });
     }); 
 
