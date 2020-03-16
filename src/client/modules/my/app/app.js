@@ -50,21 +50,14 @@ export default class App extends LightningElement {
             console.log('file contents ::: ' ,this.fileContents );
             let sheetData = JSON.stringify(
                 {
-                    data: encodeURIComponent(this.fileContents),
+                    data: this.fileContents,
                     name: this.fileName
                 }
             );
-            console.log('encodeURIComponent(this.fileContents)  ', sheetData);
-        });
-
-        //NEW CHANGES
-        let sheetData = JSON.stringify(
-            {
-                data: this.filesUploaded,
-            }
-        )
-        saveFile(sheetData).then(result => {
-            console.log("Parsed Result::   ", result);
+            
+            saveFile(sheetData).then(result => {
+                console.log("Parsed Result::   ", result);
+            });
         });
         this.showLoader = false;
         this.fileReader.readAsDataURL(this.file);
