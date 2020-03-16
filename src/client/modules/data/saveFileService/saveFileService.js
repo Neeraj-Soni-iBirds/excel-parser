@@ -1,11 +1,11 @@
 const URL = "/api/saveFile";
-let fields = [];
-export const saveFile = (metadata) => fetch(URL, {
+let fields;
+export const saveFile = (fileData) => fetch(URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: metadata
+        body: fileData
     })
     .then(response => {
         if (!response.ok) {
