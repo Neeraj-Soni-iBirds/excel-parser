@@ -17,16 +17,15 @@ module.exports = app => {
     app.use(bodyParser.urlencoded({ extended: false }))
     var jsonParser = bodyParser.json()
 
-    //    app.post('/api/saveFile', jsonParser, function (req, res) {
     app.post('/api/saveFile', jsonParser , function (req, res) {
         console.log('req.body  ', req.body);
-        // client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-        //     if (err) throw err;
-        //     for (let row of res.rows) {
-        //         console.log(JSON.stringify(row));
-        //     }
-        //     client.end();
-        // });
+        client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+            if (err) throw err;
+            for (let row of res.rows) {
+                console.log(JSON.stringify(row));
+            }
+            client.end();
+        });
     });
 
     app.post('/api/login', jsonParser, async function (req, res) {
