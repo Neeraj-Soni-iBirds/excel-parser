@@ -21,7 +21,7 @@ module.exports = app => {
         //Decoding the Excel file to insert into DB
         let data = req.body.data;
         let fileName = req.body.name;
-        let buff = new Buffer(data, 'base64');
+        let buff = new Buffer.from(data, 'base64');
         let text = buff.toString('ascii');
         
         let test = await client.query('SELECT * FROM excelParser');
