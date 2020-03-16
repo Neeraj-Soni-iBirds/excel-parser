@@ -17,8 +17,14 @@ module.exports = app => {
     app.use(bodyParser.urlencoded({ extended: false }))
     var jsonParser = bodyParser.json()
 
-    app.post('/api/saveFile', jsonParser , function (req, res) {
-        console.log('req.body  ', req.body);
+    app.post('/api/saveFile', jsonParser, function (req, res) {
+        console.log('req.body  ', req.body.data);
+
+        //Decoding the Excel file to insert into DB
+        let data = req.body.data;
+        let buff = new Buffer(data, 'base64');
+        let text = buff.toString('ascii');
+
         client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
             if (err) throw err;
             for (let row of res.rows) {
