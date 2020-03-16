@@ -29,7 +29,12 @@ export default class App extends LightningElement {
 
     uploadHelper() {
         this.showLoader = true;
-        saveFile(this.filesUploaded).then(result => {
+        let sheetData = JSON.stringify(
+            {
+                data: this.filesUploaded,           
+            }
+        )
+        saveFile(sheetData).then(result => {
             console.log("Parsed Result::   ", result);
         });
         this.showLoader = false;

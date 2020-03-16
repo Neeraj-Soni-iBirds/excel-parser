@@ -19,8 +19,8 @@ module.exports = app => {
     app.use(bodyParser.urlencoded({ extended: false }))
     var jsonParser = bodyParser.json()
 
-    app.post('/api/saveFile', function (req, res) {
-        var workbook = XLSX.readFile(req.body);
+    app.post('/api/saveFile', jsonParser, function (req, res) {
+        var workbook = XLSX.readFile(req.body.data);
         data = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
         console.log('Workbook Data  ',data);
         res.send({ data: 'success' });
