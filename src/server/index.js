@@ -25,13 +25,14 @@ module.exports = app => {
         let fileName = req.body.name;
         let buff = new Buffer(data, 'base64');
         let text = buff.toString('ascii');
-        console.log('text   ' , text );
         
-        client.query('INSERT INTO excel-parser(id, fileName, fileData)VALUES('+ fileName +',' +  data + ')', (err, res) => {
+        console.log('fileName  ' , fileName);
+        client.query('INSERT INTO excelParser(id, fileName, fileData)VALUES('+ fileName +',' +  text + ')', (err, res) => {
             if (err) throw err;
-            console.log(JSON.stringify(res));
+            console.log('Result:: ' , res);
             client.end();
         });
+        res.send({ data: 'success' });
     });
 
     app.post('/api/login', jsonParser, async function (req, res) {
