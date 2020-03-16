@@ -24,7 +24,7 @@ module.exports = app => {
         data = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
         console.log('Workbook Data  ',data);
         res.send({ data: 'success' });
-    });
+    }); 
 
     app.post('/api/login', jsonParser, async function (req, res) {
         var loginData = req.body;
