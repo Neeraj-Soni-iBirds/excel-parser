@@ -20,7 +20,7 @@ let process_wb = function (workbook) {
 module.exports = app => {
     app.use(bodyParser.urlencoded({ extended: false }))
     let jsonParser = bodyParser.json();
-    
+
     app.post('/api/saveFile', jsonParser, function (req, res) {
         let result;
         let data = req.body.data;
@@ -52,5 +52,7 @@ module.exports = app => {
     app.post('/', function (req, res) {
         var test = new jsforce.Connection({ signedRequest: req.body.signed_request });
         console.log('Connection :: ', test);
+        res.statusCode = 200;
+        res.send();
     });
 };
