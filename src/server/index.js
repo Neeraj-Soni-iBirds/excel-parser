@@ -28,6 +28,11 @@ module.exports = app => {
         result = process_wb(workbook);
         console.log('Connection :: ', conn);
         var code = req.param('code');
+        conn.oauth2.clientId = process.env.CONSUMER_ID
+        conn.oauth2.clientSecret = process.env.CONSUMER_SECRET
+        conn.oauth2.redirectUri = 'https://excel-parser-14-03-2020.herokuapp.com';
+        conn.instanceUrl = conn.signedRequest.client.instanceUrl;
+        conn.refreshToken = conn.signedRequest.client.refreshToken;
         conn.authorize(code, function (err, userInfo) {
             if (err) { return console.error(err); }
             // Now you can get the access token, refresh token, and instance URL information.
@@ -63,6 +68,7 @@ module.exports = app => {
     });
 
     app.post('/signedRequest', function (req, res) {
+        var signedRequest = decode(req.body.signed_request, consumerSecret),
         conn = new jsforce.Connection({ signedRequest: req.body.signed_request });
         res.statusCode = 200;
         return res.redirect('/');
