@@ -53,6 +53,6 @@ module.exports = app => {
         var test = new jsforce.Connection({ signedRequest: req.body.signed_request });
         console.log('Connection :: ', test);
         res.statusCode = 200;
-        res.send();
+        return res.redirect('/');
     });
 };
