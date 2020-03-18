@@ -59,6 +59,6 @@ module.exports = app => {
         // });
         // res.writeHead(200, { 'Content-Type': 'text/html' });
         // res.write('<h1>Product Manaager</h1><br /><br />To create product please enter: ');
-        // res.end();
+        res.end();
     });
 };
