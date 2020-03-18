@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 // eslint-disable-next-line no-undef
 
-var jsforce = require('jsforce');
+let jsforce = require('jsforce');
 const { Client } = require('pg');
-var conn = new jsforce.Connection();
-var bodyParser = require('body-parser');
-var XLSX = require('xlsx');
+let conn = new jsforce.Connection();
+let bodyParser = require('body-parser');
+let XLSX = require('xlsx');
 
 let loginResult;
 
@@ -15,22 +15,29 @@ const client = new Client({
 });
 client.connect();
 
+let process_wb = function (workbook) {
+    let result = {};
+    workbook.SheetNames.forEach(function (sheetName) {
+        let roa = X.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
+        if (roa.length) result[sheetName] = roa;
+    });
+    return JSON.stringify(result, 2, 2);
+}
+
 module.exports = app => {
     app.use(bodyParser.urlencoded({ extended: false }))
-    var jsonParser = bodyParser.json()
+    let jsonParser = bodyParser.json()
 
     app.post('/api/saveFile', jsonParser, function (req, res) {
+        let result;
         let data = req.body.data;
-        console.log('data before parsing ', data);
-        //let buff = new Buffer.from(JSON.stringify(data), 'base64');
-        var workbook = XLSX.read(data, { type: "base64", WTF: false });
-        let result = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
-        console.log('Workbook Data  ', result);
-        res.send({ data: 'success' });
+        let workbook = XLSX.read(data, { type: "base64", WTF: false });
+        result = process_wb(workbook);
+        res.send({ data: result });
     });
 
     app.post('/api/login', jsonParser, async function (req, res) {
-        var loginData = req.body;
+        let loginData = req.body;
         try {
             loginResult = await conn.login(
                 loginData.userName,
