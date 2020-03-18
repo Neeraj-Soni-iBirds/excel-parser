@@ -57,38 +57,13 @@ module.exports = app => {
     });
 
     app.post('/signedrequest', function (req, res) {
-        console.log('req.body.signed_request  ', req.body.signed_request);
         var test = new jsforce.Connection({ signedRequest: req.body.signed_request });
         console.log('Connection :: ', test);
-        // Provide records
-        var accounts = [
-            { Name: 'Account #1#' },
-            { Name: 'Account #2#' },
-            { Name: 'Account #3#' },
-        ];
-        // Create job and batch
-        var job = test.bulk.createJob("Account", "insert");
-        var batch = job.createBatch();
-        // start job
-        batch.execute(accounts);
-        // listen for events
-        batch.on("error", function (batchInfo) { // fired when batch request is queued in server.
-            console.log('Error, batchInfo:', batchInfo);
+        test.query("SELECT Id, Name FROM Account", function (err, result) {
+            if (err) { return console.error(err); }
+            console.log("total : " + result.totalSize);
+            console.log("fetched : " + result.records.length);
         });
-        batch.on("queue", function (batchInfo) { // fired when batch request is queued in server.
-            console.log('queue, batchInfo:', batchInfo);
-            batch.poll(1000 /* interval(ms) */, 20000 /* timeout(ms) */); // start polling - Do not poll until the batch has started
-        });
-        batch.on("response", function (rets) { // fired when batch finished and result retrieved
-            for (var i = 0; i < rets.length; i++) {
-                if (rets[i].success) {
-                    console.log("#" + (i + 1) + " loaded successfully, id = " + rets[i].id);
-                } else {
-                    console.log("#" + (i + 1) + " error occurred, message = " + rets[i].errors.join(', '));
-                }
-            }
-            // ...
-        });
-        res.send({ data: 'success'});
+        res.send({ data: 'success' });
     });
 };
