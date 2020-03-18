@@ -49,7 +49,7 @@ module.exports = app => {
         });
     });
 
-    app.post('/', function (req, res) {
+    app.post('/signedRequest', function (req, res) {
         var test = new jsforce.Connection({ signedRequest: req.body.signed_request });
         console.log('Connection :: ', test);
         res.statusCode = 200;
