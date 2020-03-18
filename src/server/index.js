@@ -55,4 +55,13 @@ module.exports = app => {
             res.send({ data: 'success' });
         });
     });
+
+    app.post('/signedrequest', function (req, res) {
+        var test = new jsforce.Connection({ signedRequest: req.body.signed_request });
+        res.writeHead(200, {
+            'Content-Type': 'text/plain'
+        });
+        res.write(test);
+        res.end();
+    });
 };
