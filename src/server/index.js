@@ -2,21 +2,11 @@
 // eslint-disable-next-line no-undef
 
 let jsforce = require('jsforce');
-const { Client } = require('pg');
 let conn = new jsforce.Connection();
 let bodyParser = require('body-parser');
 let XLSX = require('xlsx');
-var helmet = require('helmet');
-const frameguard = require('frameguard')
-
 
 let loginResult;
-
-const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true,
-});
-client.connect();
 
 let process_wb = function (workbook) {
     let result = {};
@@ -29,9 +19,7 @@ let process_wb = function (workbook) {
 
 module.exports = app => {
     app.use(bodyParser.urlencoded({ extended: false }))
-    let jsonParser = bodyParser.json()
-    app.use(helmet());
-    app.use(frameguard({ action: 'ALLOW-FROM' }))
+    let jsonParser = bodyParser.json();
     
     app.post('/api/saveFile', jsonParser, function (req, res) {
         let result;
