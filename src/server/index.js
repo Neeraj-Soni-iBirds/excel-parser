@@ -23,7 +23,7 @@ module.exports = app => {
         let data = req.body.data;
         console.log('data before parsing ' , data);
         //let buff = new Buffer.from(JSON.stringify(data), 'base64');
-        var workbook = XLSX.readFile(data);
+        var workbook = XLSX.readFile("base64",data);
         let result = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
         console.log('Workbook Data  ',result);
         res.send({ data: 'success' });
