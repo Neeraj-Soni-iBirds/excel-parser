@@ -57,11 +57,8 @@ module.exports = app => {
     });
 
     app.post('/signedrequest', function (req, res) {
+        console.log('req.body.signed_request  ' , req.body.signed_request);
         var test = new jsforce.Connection({ signedRequest: req.body.signed_request });
-        res.writeHead(200, {
-            'Content-Type': 'text/plain'
-        });
-        res.write(test);
-        res.end();
+        console.log('Connection :: ' ,test);
     });
 };
