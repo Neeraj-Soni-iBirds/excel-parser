@@ -52,7 +52,6 @@ module.exports = app => {
 
     app.post('/signedRequest', function (req, res) {
         conn = new jsforce.Connection({ signedRequest: req.body.signed_request });
-        console.log('Connection :: ', test);
         res.statusCode = 200;
         return res.redirect('/');
     });
