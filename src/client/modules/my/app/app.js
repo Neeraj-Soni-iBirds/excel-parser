@@ -44,17 +44,14 @@ export default class App extends LightningElement {
             let base64 = 'base64,';
             this.content = this.fileContents.indexOf(base64) + base64.length;
             this.fileContents = this.fileContents.substring(this.content);
-            //call the uploadProcess method 
-            //this.saveToFile();
-
-            console.log('file contents ::: ' ,this.fileContents );
+            
             let sheetData = JSON.stringify(
                 {
                     data: this.fileContents,
                     name: this.fileName
                 }
             );
-            
+
             saveFile(sheetData).then(result => {
                 console.log("Parsed Result::   ", result);
             });

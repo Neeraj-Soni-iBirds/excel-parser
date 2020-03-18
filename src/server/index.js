@@ -18,7 +18,7 @@ client.connect();
 let process_wb = function (workbook) {
     let result = {};
     workbook.SheetNames.forEach(function (sheetName) {
-        let roa = X.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
+        let roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
         if (roa.length) result[sheetName] = roa;
     });
     return JSON.stringify(result, 2, 2);
