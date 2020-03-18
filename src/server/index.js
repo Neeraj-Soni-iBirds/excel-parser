@@ -16,7 +16,12 @@ let process_wb = function (workbook) {
     });
     return JSON.stringify(result, 2, 2);
 }
-
+var oauth2 = new jsforce.OAuth2({
+    loginUrl: 'https://test.salesforce.com',
+    clientId: process.env.CONSUMER_ID,
+    clientSecret: process.env.CONSUMER_SECRET,
+    redirectUri: 'https://excel-parser-14-03-2020.herokuapp.com'
+});
 module.exports = app => {
     app.use(bodyParser.urlencoded({ extended: false }))
     let jsonParser = bodyParser.json();
@@ -27,24 +32,13 @@ module.exports = app => {
         let workbook = XLSX.read(data, { type: "base64", WTF: false });
         result = process_wb(workbook);
         console.log('Connection :: ', conn);
-        var code = conn.signedRequest.client.oauthToken;
-        conn.oauth2.clientId = process.env.CONSUMER_ID
-        conn.oauth2.clientSecret = process.env.CONSUMER_SECRET
-        conn.oauth2.redirectUri = 'https://excel-parser-14-03-2020.herokuapp.com';
-        conn.instanceUrl = conn.signedRequest.client.instanceUrl;
-        conn.refreshToken = conn.signedRequest.client.refreshToken;
-        console.log('New conn  ' , conn);
-        conn.authorize(code, function (err, userInfo) {
-            if (err) { return console.error(err); }
-            // Now you can get the access token, refresh token, and instance URL information.
-            // Save them to establish connection next time.
-            console.log(conn.accessToken);
-            console.log(conn.refreshToken);
-            console.log(conn.instanceUrl);
-            console.log("User ID: " + userInfo.id);
-            console.log("Org ID: " + userInfo.organizationId);
-            // ...
-        });
+        // var code = conn.signedRequest.client.oauthToken;
+        // conn.oauth2.clientId = process.env.CONSUMER_ID
+        // conn.oauth2.clientSecret = process.env.CONSUMER_SECRET
+        // conn.oauth2.redirectUri = 'https://excel-parser-14-03-2020.herokuapp.com';
+        // conn.instanceUrl = conn.signedRequest.client.instanceUrl;
+        // conn.refreshToken = conn.signedRequest.client.refreshToken;
+        // console.log('New conn  ', conn);
         res.send({ data: result });
     });
 
@@ -69,8 +63,25 @@ module.exports = app => {
     });
 
     app.post('/signedRequest', function (req, res) {
-        conn = new jsforce.Connection({ signedRequest: req.body.signed_request });
-        res.statusCode = 200;
-        return res.redirect('/');
+        //conn = new jsforce.Connection({ signedRequest: req.body.signed_request });
+        return res.redirect(oauth2.getAuthorizationUrl({ scope: 'api id web' }));
+        //res.statusCode = 200;
+        //return res.redirect('/');
+    });
+    app.get('/', function (req, res) {
+        var conn = new jsforce.Connection({ oauth2: oauth2 });
+        var code = req.params.code;
+        conn.authorize(code, function (err, userInfo) {
+            if (err) { return console.error(err); }
+            // Now you can get the access token, refresh token, and instance URL information.
+            // Save them to establish connection next time.
+            console.log(conn.accessToken);
+            console.log(conn.refreshToken);
+            console.log(conn.instanceUrl);
+            console.log("User ID: " + userInfo.id);
+            console.log("Org ID: " + userInfo.organizationId);
+            // ...
+            return res.redirect('/');
+        });
     });
 };
