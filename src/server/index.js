@@ -17,7 +17,7 @@ let process_wb = function (workbook) {
     return JSON.stringify(result, 2, 2);
 }
 var oauth2 = new jsforce.OAuth2({
-    loginUrl: 'https://test.salesforce.com',
+    loginUrl: 'https://login.salesforce.com',
     clientId: process.env.CONSUMER_ID,
     clientSecret: process.env.CONSUMER_SECRET,
     redirectUri: 'https://excel-parser-14-03-2020.herokuapp.com'
