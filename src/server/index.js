@@ -2,7 +2,7 @@
 // eslint-disable-next-line no-undef
 
 let jsforce = require('jsforce');
-let conn = new jsforce.Connection();
+let conn;
 let bodyParser = require('body-parser');
 let XLSX = require('xlsx');
 
@@ -26,6 +26,7 @@ module.exports = app => {
         let data = req.body.data;
         let workbook = XLSX.read(data, { type: "base64", WTF: false });
         result = process_wb(workbook);
+        console.log('Connection :: ' , conn);
         res.send({ data: result });
     });
 
@@ -50,7 +51,7 @@ module.exports = app => {
     });
 
     app.post('/signedRequest', function (req, res) {
-        var test = new jsforce.Connection({ signedRequest: req.body.signed_request });
+        conn = new jsforce.Connection({ signedRequest: req.body.signed_request });
         console.log('Connection :: ', test);
         res.statusCode = 200;
         return res.redirect('/');
