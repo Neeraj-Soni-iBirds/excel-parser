@@ -21,13 +21,13 @@ module.exports = app => {
 
     app.post('/api/saveFile', jsonParser, function (req, res) {
         let data = req.body.data;
-        console.log('data before parsing ' , data);
+        console.log('data before parsing ', data);
         //let buff = new Buffer.from(JSON.stringify(data), 'base64');
-        var workbook = XLSX.readFile("base64",data);
+        var workbook = XLSX.read(data, { type: "base64", WTF: false });
         let result = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
-        console.log('Workbook Data  ',result);
+        console.log('Workbook Data  ', result);
         res.send({ data: 'success' });
-    }); 
+    });
 
     app.post('/api/login', jsonParser, async function (req, res) {
         var loginData = req.body;
