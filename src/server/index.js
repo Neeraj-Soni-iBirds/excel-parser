@@ -49,16 +49,8 @@ module.exports = app => {
         });
     });
 
-    app.post('/signedrequest', function (req, res) {
+    app.post('/', function (req, res) {
         var test = new jsforce.Connection({ signedRequest: req.body.signed_request });
         console.log('Connection :: ', test);
-        // test.query("SELECT Id, Name FROM Account", function (err, result) {
-        //     if (err) { return console.error(err); }
-        //     console.log("total : " + result.totalSize);
-        //     console.log("fetched : " + result.records.length);
-        // });
-        // res.writeHead(200, { 'Content-Type': 'text/html' });
-        // res.write('<h1>Product Manaager</h1><br /><br />To create product please enter: ');
-        res.send({ data: 'success' });
     });
 };
