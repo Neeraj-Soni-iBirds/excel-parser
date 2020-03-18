@@ -27,7 +27,7 @@ module.exports = app => {
         let workbook = XLSX.read(data, { type: "base64", WTF: false });
         result = process_wb(workbook);
         console.log('Connection :: ', conn);
-        var code = req.param('code');
+        var code = conn.signedRequest.client.oauthToken;
         conn.oauth2.clientId = process.env.CONSUMER_ID
         conn.oauth2.clientSecret = process.env.CONSUMER_SECRET
         conn.oauth2.redirectUri = 'https://excel-parser-14-03-2020.herokuapp.com';
