@@ -6,6 +6,7 @@ const { Client } = require('pg');
 let conn = new jsforce.Connection();
 let bodyParser = require('body-parser');
 let XLSX = require('xlsx');
+var helmet = require('helmet');
 
 let loginResult;
 
@@ -27,6 +28,8 @@ let process_wb = function (workbook) {
 module.exports = app => {
     app.use(bodyParser.urlencoded({ extended: false }))
     let jsonParser = bodyParser.json()
+    app.use(helmet.frameguard())
+    //app.use(helmet());
 
     app.post('/api/saveFile', jsonParser, function (req, res) {
         let result;
