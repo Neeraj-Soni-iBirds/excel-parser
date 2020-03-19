@@ -1,16 +1,25 @@
 import { LightningElement, track } from 'lwc';
 import { saveFile } from 'data/saveFileService';
+import { getObjects } from 'data/objectApiService';
 
 export default class App extends LightningElement {
 
     @track showLoader = false;
     @track fileName = '';
+    @track objects = [];
+
     filesUploaded = [];
     file;
     MAX_FILE_SIZE = 1500000;
     fileContents;
     fileReader;
     content;
+
+    connectedCallback(){
+        getObjects().then(result => {
+            this.objects = result;
+        });
+    }
 
     handleFilesChange(event) {
         if (event.target.files.length > 0) {

@@ -24,22 +24,9 @@ module.exports = app => {
     app.post('/api/saveFile', jsonParser, function (req, res) {
         let data = req.body.data,
             workbook = XLSX.read(data, { type: "base64", WTF: false }),
-            query = "SELECT Id, FirstName, LastName, Phone, Email FROM Contact LIMIT 1",
-            contactRequest = {
-                url: instanceUrl + '/services/data/v29.0/sobjects/',
-                headers: {
-                    'Authorization': 'OAuth ' + oauthToken
-                }
-            };
-
-        let result = process_wb(workbook);
+            result = process_wb(workbook);
         console.log(result);
-
-        request(contactRequest, function (err, response, body) {
-            res.send({ data: response });
-        });
-
-        //res.send({ data: result });
+        res.send({ data: result });
     });
 
     app.post('/signedRequest', function (req, res) {
@@ -47,5 +34,31 @@ module.exports = app => {
         oauthToken = signedRequest.client.oauthToken;
         instanceUrl = signedRequest.client.instanceUrl;
         return res.redirect('/');
+    });
+
+    app.get('/api/objects', async (req, res) => {
+        var objects = [];
+        let objectRequest = {
+            url: instanceUrl + '/services/data/v29.0/sobjects/',
+            headers: {
+                'Authorization': 'OAuth ' + oauthToken
+            }
+        };
+
+        let response = await request(objectRequest);
+
+        response.sobjects.forEach(function (item, index) {
+            var obj = {
+                objApiName: item.name,
+                objectLabel: item.label,
+                url: item.urls.sobject,
+                id: index
+            };
+            objects.push(obj);
+        });
+        objects.shift();
+        console.log('objects  ' , objects);
+        if (objects)
+            res.send({ data: objects });
     });
 };
