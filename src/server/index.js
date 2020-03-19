@@ -40,7 +40,7 @@ module.exports = app => {
             oauthToken = signedRequest.client.oauthToken,
             instanceUrl = signedRequest.client.instanceUrl,
 
-            query = "SELECT Id, FirstName, LastName, Phone, Email FROM Contact LIMIT 1'",
+            query = "SELECT Id, FirstName, LastName, Phone, Email FROM Contact LIMIT 1",
 
             contactRequest = {
                 url: instanceUrl + '/services/data/v29.0/query?q=' + query,
