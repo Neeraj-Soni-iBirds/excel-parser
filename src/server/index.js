@@ -57,7 +57,7 @@ module.exports = app => {
                     id: index
                 };
                 objects.push(obj);
-            });
+            }); 
             objects.shift();
             console.log('objects  ', objects);
             if (objects)
