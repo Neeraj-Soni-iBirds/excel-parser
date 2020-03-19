@@ -7,34 +7,33 @@ let bodyParser = require('body-parser'),
     decode = require('salesforce-signed-request'),
     consumerSecret = process.env.CONSUMER_SECRET,
     oauthToken,
-    instanceUrl;
-
-let process_wb = function (workbook) {
-    let result = {};
-    workbook.SheetNames.forEach(function (sheetName) {
-        let roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
-        if (roa.length) result[sheetName] = roa;
-    });
-    return JSON.stringify(result, 2, 2);
-}
+    instanceUrl,
+    process_wb = function (workbook) {
+        let result = {};
+        workbook.SheetNames.forEach(function (sheetName) {
+            let roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
+            if (roa.length) result[sheetName] = roa;
+        });
+        return JSON.stringify(result, 2, 2);
+    }
 
 module.exports = app => {
     app.use(bodyParser.urlencoded({ extended: false }))
     let jsonParser = bodyParser.json();
 
     app.post('/api/saveFile', jsonParser, function (req, res) {
-        let result;
-        let data = req.body.data;
-        let workbook = XLSX.read(data, { type: "base64", WTF: false });
-        result = process_wb(workbook);
+        let data = req.body.data,
+            workbook = XLSX.read(data, { type: "base64", WTF: false }),
+            query = "SELECT Id, FirstName, LastName, Phone, Email FROM Contact LIMIT 1",
+            contactRequest = {
+                url: instanceUrl + '/services/data/v29.0/sobjects/',
+                headers: {
+                    'Authorization': 'OAuth ' + oauthToken
+                }
+            };
 
-        let query = "SELECT Id, FirstName, LastName, Phone, Email FROM Contact LIMIT 1";
-        let contactRequest = {
-            url: instanceUrl + '/services/data/v29.0/query?q=' + query,
-            headers: {
-                'Authorization': 'OAuth ' + oauthToken
-            }
-        };
+        let result = process_wb(workbook);
+        console.log(result);
 
         request(contactRequest, function (err, response, body) {
             res.send({ data: response });
