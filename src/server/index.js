@@ -46,7 +46,7 @@ module.exports = app => {
         };
 
         request(objectRequest, function (err, response, body) {
-            console.log('response from server:: ', response.body);
+            console.log('response from server:: ', response.body.sobjects);
             response.body.sobjects.forEach(function (item, index) {
                 var obj = {
                     objApiName: item.name,
