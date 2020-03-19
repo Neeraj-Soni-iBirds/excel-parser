@@ -49,6 +49,7 @@ module.exports = app => {
             let parsedObject = JSON.parse(JSON.stringify(response));
             console.log('parsedObject  ', parsedObject.body.encoding);
             console.log('parsedObject  ', parsedObject.body.maxBatchSize);
+            res.send({ data: parsedObject.body });
             response.body.sobjects.forEach(function (item, index) {
                 var obj = {
                     objApiName: item.name,
