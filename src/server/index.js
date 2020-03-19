@@ -45,20 +45,21 @@ module.exports = app => {
             }
         };
 
-        let response = await request(objectRequest);
-
-        response.sobjects.forEach(function (item, index) {
-            var obj = {
-                objApiName: item.name,
-                objectLabel: item.label,
-                url: item.urls.sobject,
-                id: index
-            };
-            objects.push(obj);
+        request(objectRequest, function (err, response, body) {
+            console.log('response from server:: ' ,response );
+            response.sobjects.forEach(function (item, index) {
+                var obj = {
+                    objApiName: item.name,
+                    objectLabel: item.label,
+                    url: item.urls.sobject,
+                    id: index
+                };
+                objects.push(obj);
+            });
+            objects.shift();
+            console.log('objects  ', objects);
+            if (objects)
+                res.send({ data: objects });
         });
-        objects.shift();
-        console.log('objects  ' , objects);
-        if (objects)
-            res.send({ data: objects });
     });
 };
