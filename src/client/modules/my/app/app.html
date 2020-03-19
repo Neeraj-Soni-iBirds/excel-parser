@@ -18,7 +18,7 @@
             <select name="" id="names" onchange={handleChange}>
                 <option value="none">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--NONE--</option>
                 <template for:each={objects} for:item="obj">
-                    <option key={obj.id} value={obj.objName}>{obj.objName}</option>
+                    <option key={obj.id} value={obj.objName}>{obj.objectLabel}</option>
                 </template>
             </select>
         </template>
