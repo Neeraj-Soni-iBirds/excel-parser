@@ -39,15 +39,16 @@ module.exports = app => {
     app.get('/api/objects', async (req, res) => {
         var objects = [];
         let objectRequest = {
-            url: instanceUrl + '/services/data/v29.0/sobjects/',
+            url: instanceUrl + '/services/data/v47.0/sobjects/',
             headers: {
                 'Authorization': 'OAuth ' + oauthToken
             }
         };
 
-        request(objectRequest, jsonParser, function (err, response) {
+        request(objectRequest, function (err, response) {
             let parsedObject = JSON.parse(JSON.stringify(response.body));
             console.log('parsedObject  ', parsedObject.sobjects);
+            console.log('parsedObject length ', parsedObject.sobjects.length);
             response.body.sobjects.forEach(function (item, index) {
                 var obj = {
                     objApiName: item.name,
