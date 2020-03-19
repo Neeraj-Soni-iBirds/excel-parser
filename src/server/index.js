@@ -47,10 +47,8 @@ module.exports = app => {
 
         request(objectRequest, function (err, response) {
             let parsedObject = JSON.parse(JSON.stringify(response));
-            console.log('parsedObject  ', parsedObject.body);
-            parsedObject.body.forEachh(function (item, index) {
-                console.log(item);
-            });
+            console.log('parsedObject  ', parsedObject.body.encoding);
+            console.log('parsedObject  ', parsedObject.body.maxBatchSize);
             response.body.sobjects.forEach(function (item, index) {
                 var obj = {
                     objApiName: item.name,
