@@ -50,7 +50,7 @@ module.exports = app => {
             };
 
         request(contactRequest, function (err, response, body) {
-            res.send({ data: JSON.stringify(response) });
+            res.send({ data: response });
         });
     });
 };
