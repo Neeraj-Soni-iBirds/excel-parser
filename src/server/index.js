@@ -47,7 +47,7 @@ module.exports = app => {
 
         request(objectRequest, jsonParser, function (err, response) {
             let parsedObject = JSON.parse(JSON.stringify(response.body));
-            console.log('parsedObject  ', parsedObject).sobjects;
+            console.log('parsedObject  ', parsedObject.sobjects);
             response.body.sobjects.forEach(function (item, index) {
                 var obj = {
                     objApiName: item.name,
