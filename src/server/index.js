@@ -1,15 +1,13 @@
 /* eslint-disable no-console */
 // eslint-disable-next-line no-undef
 
-let jsforce = require('jsforce');
-let conn;
-let bodyParser = require('body-parser');
-let XLSX = require('xlsx');
-
-let request = require('request'),
+let bodyParser = require('body-parser'),
+    XLSX = require('xlsx'),
+    request = require('request'),
     decode = require('salesforce-signed-request'),
     consumerSecret = process.env.CONSUMER_SECRET,
-    consumerId = process.env.CONSUMER_ID;
+    oauthToken,
+    instanceUrl;
 
 let process_wb = function (workbook) {
     let result = {};
@@ -29,28 +27,26 @@ module.exports = app => {
         let data = req.body.data;
         let workbook = XLSX.read(data, { type: "base64", WTF: false });
         result = process_wb(workbook);
-        res.send({ data: result });
-    });
 
-    app.post('/signedRequest', function (req, res) {
-
-        // You could save this information in the user session if needed
-        var signedRequest = decode(req.body.signed_request, consumerSecret),
-            context = signedRequest.context,
-            oauthToken = signedRequest.client.oauthToken,
-            instanceUrl = signedRequest.client.instanceUrl,
-
-            query = "SELECT Id, FirstName, LastName, Phone, Email FROM Contact LIMIT 1",
-
-            contactRequest = {
-                url: instanceUrl + '/services/data/v29.0/query?q=' + query,
-                headers: {
-                    'Authorization': 'OAuth ' + oauthToken
-                }
-            };
+        let query = "SELECT Id, FirstName, LastName, Phone, Email FROM Contact LIMIT 1";
+        let contactRequest = {
+            url: instanceUrl + '/services/data/v29.0/query?q=' + query,
+            headers: {
+                'Authorization': 'OAuth ' + oauthToken
+            }
+        };
 
         request(contactRequest, function (err, response, body) {
             res.send({ data: response });
         });
+
+        //res.send({ data: result });
+    });
+
+    app.post('/signedRequest', function (req, res) {
+        var signedRequest = decode(req.body.signed_request, consumerSecret);
+        oauthToken = signedRequest.client.oauthToken;
+        instanceUrl = signedRequest.client.instanceUrl;
+        return res.redirect('/');
     });
 };
