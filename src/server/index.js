@@ -50,19 +50,19 @@ module.exports = app => {
             console.log('parsedObject  ', parsedObject.body.encoding);
             console.log('parsedObject  ', parsedObject.body.maxBatchSize);
             res.send({ data: parsedObject.body });
-            response.body.sobjects.forEach(function (item, index) {
-                var obj = {
-                    objApiName: item.name,
-                    objectLabel: item.label,
-                    url: item.urls.sobject,
-                    id: index
-                };
-                objects.push(obj);
-            });
-            objects.shift();
-            console.log('objects  ', objects);
-            if (objects)
-                res.send({ data: objects });
+            // response.body.sobjects.forEach(function (item, index) {
+            //     var obj = {
+            //         objApiName: item.name,
+            //         objectLabel: item.label,
+            //         url: item.urls.sobject,
+            //         id: index
+            //     };
+            //     objects.push(obj);
+            // });
+            // objects.shift();
+            // console.log('objects  ', objects);
+            // if (objects)
+            //     res.send({ data: objects });
         });
     });
 };
