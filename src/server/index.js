@@ -46,6 +46,7 @@ module.exports = app => {
         };
 
         request(objectRequest, function (err, response) {
+            console.log('encoding   ',response.body.encoding);
             let parsedObject = JSON.parse(JSON.stringify(response.body));
             console.log('parsedObject  ', parsedObject.sobjects);
             console.log('parsedObject length ', parsedObject.sobjects.length);
