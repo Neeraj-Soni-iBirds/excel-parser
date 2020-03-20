@@ -36,7 +36,7 @@ module.exports = app => {
         return res.redirect('/');
     });
 
-    app.get('/api/objects', async (req, res) => {
+    app.get('/api/objects', jsonParser, async (req, res) => {
         var objects = [];
         let objectRequest = {
             url: instanceUrl + '/services/data/v47.0/sobjects/',
@@ -46,21 +46,20 @@ module.exports = app => {
         };
 
         request(objectRequest, function (err, response) {
-            console.log('encoding   ', response.body);
-            res.send({ data: response.body });
-            // response.body.sobjects.forEach(function (item, index) {
-            //     var obj = {
-            //         objApiName: item.name,
-            //         objectLabel: item.label,
-            //         url: item.urls.sobject,
-            //         id: index
-            //     };
-            //     objects.push(obj);
-            // }); 
-            // objects.shift();
-            // console.log('objects  ', objects);
-            // if (objects)
-            //     res.send({ data: objects });
+            console.log('encoding   ', response.body.sobjects);
+            response.body.sobjects.forEach(function (item, index) {
+                var obj = {
+                    objApiName: item.name,
+                    objectLabel: item.label,
+                    url: item.urls.sobject,
+                    id: index
+                };
+                objects.push(obj);
+            });
+            objects.shift();
+            console.log('objects  ', objects);
+            if (objects)
+                res.send({ data: objects });
         });
     });
 };
