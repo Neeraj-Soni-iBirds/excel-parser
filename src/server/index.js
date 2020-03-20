@@ -46,23 +46,21 @@ module.exports = app => {
         };
 
         request(objectRequest, function (err, response) {
-            console.log('encoding   ',response.body.encoding);
-            let parsedObject = JSON.parse(JSON.stringify(response.body));
-            console.log('parsedObject  ', parsedObject.sobjects);
-            console.log('parsedObject length ', parsedObject.sobjects.length);
-            response.body.sobjects.forEach(function (item, index) {
-                var obj = {
-                    objApiName: item.name,
-                    objectLabel: item.label,
-                    url: item.urls.sobject,
-                    id: index
-                };
-                objects.push(obj);
-            }); 
-            objects.shift();
-            console.log('objects  ', objects);
-            if (objects)
-                res.send({ data: objects });
+            console.log('encoding   ', response.body);
+            res.send({ data: response.body });
+            // response.body.sobjects.forEach(function (item, index) {
+            //     var obj = {
+            //         objApiName: item.name,
+            //         objectLabel: item.label,
+            //         url: item.urls.sobject,
+            //         id: index
+            //     };
+            //     objects.push(obj);
+            // }); 
+            // objects.shift();
+            // console.log('objects  ', objects);
+            // if (objects)
+            //     res.send({ data: objects });
         });
     });
 };
