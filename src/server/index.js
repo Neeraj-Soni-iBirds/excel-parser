@@ -48,7 +48,7 @@ module.exports = app => {
         };
 
         request(objectRequest, function (err, response) {
-            let test = JSON.parse(response);
+            let test = JSON.parse(JSON.stringify(response));
             console.log('TESTTESTTEST', test.body.sobjects);
             response.body.sobjects.forEach(function (item, index) {
                 let obj = {
