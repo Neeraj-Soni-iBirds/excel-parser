@@ -56,7 +56,7 @@ module.exports = app => {
         request(objectRequest, function (err, response) {
             if (err) { console.log('ERROR:: ', err); }
             let result = parse(stringify(response.body), null, true);
-            console.log('New Test',JSON.parse(JSON.parse(JSON.stringify(response.body))).sobjects);
+            console.log('New Test',JSON.parse(response.body).sobjects);
             JSON.parse(result).sobjects.forEach(function (item, index) {
                 let obj = {
                     objApiName: item.name,
