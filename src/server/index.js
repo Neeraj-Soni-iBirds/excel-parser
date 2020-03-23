@@ -47,13 +47,11 @@ module.exports = app => {
             }
         };
 
-        try {
-            let response = await request(objectRequest);
-            console.log('response  ', response);
-            let test = JSON.parse(JSON.stringify(response));
-            let testbody = JSON.parse(JSON.stringify(test.body));
-            console.log('TESTTESTTEST', testbody.sobjects);
-            testbody.sobjects.forEach(function (item, index) {
+        request(objectRequest, function (err, response) {
+            if (err) { console.log('ERROR:: ', err); }
+            let sObjectList = response.body['sobjects'];
+            console.log('sObjectList  ' , sObjectList);
+            sObjectList.forEach(function (item, index) {
                 let obj = {
                     objApiName: item.name,
                     objectLabel: item.label,
@@ -64,11 +62,8 @@ module.exports = app => {
             });
             objects.shift();
             console.log('objects  ', objects);
-
-        } catch (err) {
-            res.send({ error: err });
-        }
-        if (objects)
-            res.send({ data: objects });
+            if (objects)
+                res.send({ data: objects });
+        });
     });
 };
