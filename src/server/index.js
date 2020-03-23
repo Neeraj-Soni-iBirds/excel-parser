@@ -39,14 +39,17 @@ module.exports = app => {
     app.get('/api/objects', jsonParser, async (req, res) => {
         let objects = [].
             objectRequest = {
-                url: instanceUrl + '/services/data/v47.0/sobjects/',
-                headers: {
-                    'Authorization': 'OAuth ' + oauthToken
-                }
-            };
+            url: instanceUrl + '/services/data/v47.0/sobjects/',
+            headers: {
+                'Authorization': 'OAuth ' + oauthToken,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        };
 
         request(objectRequest, function (err, response) {
-            console.log('encoding   ', response.body.sobjects);
+            let test = JSON.parse(response);
+            console.log('TESTTESTTEST'  , test.body.sobjects);
             response.body.sobjects.forEach(function (item, index) {
                 let obj = {
                     objApiName: item.name,
