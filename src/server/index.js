@@ -52,7 +52,8 @@ module.exports = app => {
             console.log('typeof  ', typeof response);
             let test = JSON.parse(JSON.stringify(response));
             let testbody = JSON.parse(JSON.stringify(test.body));
-            console.log('TESTTESTTEST', test.body.sobjects);
+            console.log('testbody  ' , testbody);
+            console.log('TESTTESTTEST', testbody.sobjects);
             response.body.sobjects.forEach(function (item, index) {
                 let obj = {
                     objApiName: item.name,
