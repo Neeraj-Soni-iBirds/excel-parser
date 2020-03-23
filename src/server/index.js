@@ -51,8 +51,9 @@ module.exports = app => {
             if (err) { console.log('ERROR:: ', err); }
             var keys = [];
             for (var k in response.body) keys.push(k);
-            console.log('keys  :: ', JSON.stringify(keys));
+            //console.log('keys  :: ', JSON.stringify(keys));
             let test = JSON.parse(JSON.stringify(response.body));
+            console.log('asdf : ' , test[keys[2]]);
             let sObjectList = test['sobjects'];
             console.log('sObjectList  ', sObjectList);
             console.log('test  ', test);
