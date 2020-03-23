@@ -37,8 +37,8 @@ module.exports = app => {
     });
 
     app.get('/api/objects', jsonParser, async (req, res) => {
-        let objects = [].
-            objectRequest = {
+        let objects = [];
+        let objectRequest = {
             url: instanceUrl + '/services/data/v47.0/sobjects/',
             headers: {
                 'Authorization': 'OAuth ' + oauthToken,
@@ -49,7 +49,7 @@ module.exports = app => {
 
         request(objectRequest, function (err, response) {
             let test = JSON.parse(response);
-            console.log('TESTTESTTEST'  , test.body.sobjects);
+            console.log('TESTTESTTEST', test.body.sobjects);
             response.body.sobjects.forEach(function (item, index) {
                 let obj = {
                     objApiName: item.name,
