@@ -1,12 +1,6 @@
 /* eslint-disable no-console */
 // eslint-disable-next-line no-undef
 
-const {
-    parse,
-    stringify,
-    assign
-} = require('comment-json');
-
 let bodyParser = require('body-parser'),
     XLSX = require('xlsx'),
     request = require('request'),
@@ -52,12 +46,9 @@ module.exports = app => {
                 'Accept': 'application/json'
             }
         };
- 
+
         request(objectRequest, function (err, response) {
-            if (err) { console.log('ERROR:: ', err); }
-            let result = parse(stringify(response.body), null, true);
-            console.log('New Test',JSON.parse(response.body).sobjects);
-            JSON.parse(result).sobjects.forEach(function (item, index) {
+            JSON.parse(response.body).sobjects.forEach(function (item, index) {
                 let obj = {
                     objApiName: item.name,
                     objectLabel: item.label,
