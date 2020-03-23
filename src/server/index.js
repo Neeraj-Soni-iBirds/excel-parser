@@ -42,7 +42,7 @@ module.exports = app => {
         return res.redirect('/');
     });
 
-    app.get('/api/objects', jsonParser, async (req, res) => {
+    app.get('/api/objects', async (req, res) => {
         let objects = [];
         let objectRequest = {
             url: instanceUrl + '/services/data/v47.0/sobjects/',
