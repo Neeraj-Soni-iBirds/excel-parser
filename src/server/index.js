@@ -56,8 +56,9 @@ module.exports = app => {
         request(objectRequest, function (err, response) {
             if (err) { console.log('ERROR:: ', err); }
             let result = parse(stringify(response.body), null, true);
-            console.log('2 index    ', result[2]);
-            console.log('TEST  ', result.sobjects);
+            console.log('type of  ', typeof result)
+            console.log('TEST  ', result[0] + result[1] + result[2] + result[3]);
+            console.log('adain parsed', JSON.parse(result).sobjects);
             result.sobjects.forEach(function (item, index) {
                 let obj = {
                     objApiName: item.name,
