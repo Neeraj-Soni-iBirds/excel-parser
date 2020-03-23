@@ -47,9 +47,9 @@ module.exports = app => {
             }
         };
 
-        request(objectRequest, function (err, response) {
-            if (err) { console.log('ERROR:: ', err); }
-            console.log('typeof  ', typeof response);
+        try {
+            let response = await request(objectRequest);
+            console.log('response  ', response);
             let test = JSON.parse(JSON.stringify(response));
             let testbody = JSON.parse(JSON.stringify(test.body));
             console.log('TESTTESTTEST', testbody.sobjects);
@@ -64,8 +64,11 @@ module.exports = app => {
             });
             objects.shift();
             console.log('objects  ', objects);
-            if (objects)
-                res.send({ data: objects });
-        });
+
+        } catch (err) {
+            res.send({ error: err });
+        }
+        if (objects)
+            res.send({ data: objects });
     });
 };
