@@ -49,6 +49,9 @@ module.exports = app => {
 
         request(objectRequest, function (err, response) {
             if (err) { console.log('ERROR:: ', err); }
+            var keys = [];
+            for (var k in response.body) keys.push(k);
+            console.log('keys  :: ', JSON.stringify(keys));
             let test = JSON.parse(JSON.stringify(response.body));
             let sObjectList = test['sobjects'];
             console.log('sObjectList  ', sObjectList);
