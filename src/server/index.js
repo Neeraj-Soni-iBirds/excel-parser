@@ -30,25 +30,25 @@ module.exports = app => {
     });
 
     app.post('/signedRequest', function (req, res) {
-        var signedRequest = decode(req.body.signed_request, consumerSecret);
+        let signedRequest = decode(req.body.signed_request, consumerSecret);
         oauthToken = signedRequest.client.oauthToken;
         instanceUrl = signedRequest.client.instanceUrl;
         return res.redirect('/');
     });
 
     app.get('/api/objects', jsonParser, async (req, res) => {
-        var objects = [];
-        let objectRequest = {
-            url: instanceUrl + '/services/data/v47.0/sobjects/',
-            headers: {
-                'Authorization': 'OAuth ' + oauthToken
-            }
-        };
+        let objects = [].
+            objectRequest = {
+                url: instanceUrl + '/services/data/v47.0/sobjects/',
+                headers: {
+                    'Authorization': 'OAuth ' + oauthToken
+                }
+            };
 
         request(objectRequest, function (err, response) {
             console.log('encoding   ', response.body.sobjects);
             response.body.sobjects.forEach(function (item, index) {
-                var obj = {
+                let obj = {
                     objApiName: item.name,
                     objectLabel: item.label,
                     url: item.urls.sobject,
