@@ -51,7 +51,7 @@ module.exports = app => {
         };
         try {
             newResponse = await request(jobIdRequest);
-        } catch (err) {
+        } catch (err) { 
             logger.error('Http error', err);
             return res.status(500).send();
         }
