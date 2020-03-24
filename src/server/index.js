@@ -97,7 +97,7 @@ module.exports = app => {
             console.log('Error: ', err);
         }
         console.log('setStatusRequestResponse  ', setStatusRequestResponse);
-        res.send({ data: objects });
+        res.send({ data: 'success' });
     });
 
     app.get('/api/objects', async (req, res) => {
