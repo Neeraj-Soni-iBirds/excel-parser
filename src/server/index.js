@@ -64,7 +64,7 @@ module.exports = app => {
         console.log('jobIdRequestResponse.contentUrl  ', jobIdRequestResponse.contentUrl);
         console.log('workbookResult ', workbookResult);
         let insertDataRequest = {
-            url: instanceUrl + '/' + jobIdRequestResponse.contentUrl,
+            url: instanceUrl + '/' + jobIdRequestResponse.contentUrl + '/',
             method: 'PUT',
             headers: {
                 'Authorization': 'OAuth ' + oauthToken,
@@ -82,7 +82,7 @@ module.exports = app => {
 
 
         let setStatusRequest = {
-            url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + jobIdRequestResponse.id,
+            url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + jobIdRequestResponse.id + '/',
             method: 'PATCH',
             headers: {
                 'Authorization': 'OAuth ' + oauthToken,
