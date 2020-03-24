@@ -103,7 +103,7 @@ module.exports = app => {
             }
         };
 
-        request(objectRequest, function (err, response) {
+        await request(objectRequest, function (err, response) {
             if (err) { res.send({ error: err }); }
             JSON.parse(response.body).sobjects.forEach(function (item, index) {
                 let obj = {
