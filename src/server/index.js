@@ -61,6 +61,8 @@ module.exports = app => {
         console.log('jobIdRequestResponse ', jobIdRequestResponse.id);
 
 
+        console.log('jobIdRequestResponse.contentUrl  ', jobIdRequestResponse.contentUrl);
+        console.log('workbookResult ', workbookResult);
         let insertDataRequest = {
             url: instanceUrl + '/' + jobIdRequestResponse.contentUrl,
             method: 'PUT',
