@@ -20,8 +20,7 @@ let bodyParser = require('body-parser'),
             if (csv.length)
                 result = csv;
         });
-        console.log('Result:: ' , result);
-        console.log('Parsed :: ' , JSON.parse(result));
+        console.log('Result:: ', result);
         return result;
     }
 
@@ -98,7 +97,7 @@ module.exports = app => {
             console.log('Error: ', err);
         }
         console.log('setStatusRequestResponse  ', setStatusRequestResponse);
-
+        res.send({ data: objects });
     });
 
     app.get('/api/objects', async (req, res) => {
