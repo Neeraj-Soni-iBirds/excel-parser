@@ -27,7 +27,7 @@ module.exports = app => {
     app.use(bodyParser.urlencoded({ extended: false }))
     let jsonParser = bodyParser.json();
 
-    app.post('/api/saveFile', jsonParser, function (req, res) {
+    app.post('/api/saveFile', jsonParser, async function (req, res) {
         let data = req.body.data,
             workbook = XLSX.read(data, { type: "base64", WTF: false }),
             workbookResult = process_wb(workbook),
@@ -49,7 +49,7 @@ module.exports = app => {
             })
         };
 
-        request(jobIdRequest, async function (err, response) {
+        request(jobIdRequest, function (err, response) {
             if (err) { res.send({ error: err }); }
             let responseData = JSON.parse(response.body);
             let insertDataRequest = {
@@ -69,14 +69,14 @@ module.exports = app => {
             });
 
             let setStatus = {
-                url: instanceUrl +'/services/data/v47.0/jobs/ingest/' + responseData.id,
+                url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + responseData.id,
                 method: 'PATCH',
                 headers: {
                     'Authorization': 'OAuth ' + oauthToken,
                     'Content-Type': 'application/json; charset=UTF-8',
                     'Accept': 'application/json'
                 },
-                body: { 
+                body: {
                     "state": "UploadComplete"
                 }
             };
