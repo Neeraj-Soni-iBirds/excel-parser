@@ -9,12 +9,16 @@ let bodyParser = require('body-parser'),
     oauthToken,
     instanceUrl,
     process_wb = function (workbook) {
-        let result = {};
+        let result = [];
         workbook.SheetNames.forEach(function (sheetName) {
-            let roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
-            if (roa.length) result[sheetName] = roa;
+            let csv = XLSX.utils.sheet_to_csv(workbook.Sheets[sheetName]);
+            if (csv.length) {
+                result.push("SHEET: " + sheetName);
+                result.push("");
+                result.push(csv);
+            }
         });
-        return JSON.stringify(result, 2, 2);
+        return result.join("\n");
     }
 
 module.exports = app => {
@@ -24,16 +28,31 @@ module.exports = app => {
     app.post('/api/saveFile', jsonParser, function (req, res) {
         let data = req.body.data,
             workbook = XLSX.read(data, { type: "base64", WTF: false }),
-            result = process_wb(workbook);
+            result = process_wb(workbook),
+            objectName = req.query.objName;
+
+        console.log('objectName :: ', objectName);
+        let jobIdRequest = {
+            url: instanceUrl + '/services/data/v47.0/jobs/ingest/',
+            headers: {
+                'Authorization': 'OAuth ' + oauthToken,
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': 'application/json'
+            },
+            body: {
+                "object": objectName,
+                "contentType": "CSV",
+                "operation": "insert",
+                "lineEnding": "CRLF"
+            }
+        };
+
+        request(jobIdRequest, function (err, response) {
+            console.log('Job Id response  : ', response);
+        });
+
         console.log(result);
         res.send({ data: result });
-    });
-
-    app.post('/signedRequest', function (req, res) {
-        let signedRequest = decode(req.body.signed_request, consumerSecret);
-        oauthToken = signedRequest.client.oauthToken;
-        instanceUrl = signedRequest.client.instanceUrl;
-        return res.redirect('/');
     });
 
     app.get('/api/objects', async (req, res) => {
@@ -62,5 +81,12 @@ module.exports = app => {
             if (objects)
                 res.send({ data: objects });
         });
+    });
+
+    app.post('/signedRequest', function (req, res) {
+        let signedRequest = decode(req.body.signed_request, consumerSecret);
+        oauthToken = signedRequest.client.oauthToken;
+        instanceUrl = signedRequest.client.instanceUrl;
+        return res.redirect('/');
     });
 };

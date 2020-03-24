@@ -61,7 +61,7 @@ export default class App extends LightningElement {
                 }
             );
 
-            saveFile(sheetData).then(result => {
+            saveFile(sheetData, 'Contact').then(result => {
                 console.log("Parsed Result::   ", result);
             });
         });

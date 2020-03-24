@@ -1,6 +1,6 @@
-const URL = "/api/saveFile";
+const URL = "/api/saveFile?objName=";
 let fields;
-export const saveFile = (fileData) => fetch(URL, {
+export const saveFile = (fileData, objName) => fetch(URL + objName, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
