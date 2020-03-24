@@ -63,10 +63,29 @@ module.exports = app => {
                 body: workbookResult
             };
 
-            request(insertDataRequest, function (err, response) {
+            await request(insertDataRequest, function (err, response) {
                 if (err) { res.send({ error: err }); }
                 console.log('Response :: ', response);
             });
+
+            let setStatus = {
+                url: instanceUrl +'/services/data/v47.0/jobs/ingest/' + responseData.id,
+                method: 'PATCH',
+                headers: {
+                    'Authorization': 'OAuth ' + oauthToken,
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'Accept': 'application/json'
+                },
+                body: {
+                    "state": "UploadComplete"
+                }
+            };
+
+            await request(setStatus, function (err, response) {
+                if (err) { res.send({ error: err }); }
+                console.log('Response 2  :: ', response);
+            });
+
         });
 
         //console.log(result);
@@ -83,9 +102,9 @@ module.exports = app => {
                 'Accept': 'application/json'
             }
         };
-        try {
-            let response = await request(objectRequest);
-            console.log('Response body:: ', response.body);
+
+        request(objectRequest, function (err, response) {
+            if (err) { res.send({ error: err }); }
             JSON.parse(response.body).sobjects.forEach(function (item, index) {
                 let obj = {
                     objApiName: item.name,
@@ -97,10 +116,7 @@ module.exports = app => {
             });
             if (objects)
                 res.send({ data: objects });
-        } catch (err) {
-            if (err) { res.send({ error: err }); }
-
-        }
+        });
     });
 
     app.post('/signedRequest', function (req, res) {
