@@ -28,10 +28,9 @@ module.exports = app => {
     app.post('/api/saveFile', jsonParser, function (req, res) {
         let data = req.body.data,
             workbook = XLSX.read(data, { type: "base64", WTF: false }),
-            result = process_wb(workbook),
+            workbookResult = process_wb(workbook),
             objectName = req.query.objName;
 
-        console.log('objectName :: ', objectName);
         let jobIdRequest = {
             url: instanceUrl + '/services/data/v47.0/jobs/ingest/',
             method: 'POST',
@@ -50,7 +49,22 @@ module.exports = app => {
 
         request(jobIdRequest, function (err, response) {
             if (err) { res.send({ error: err }); }
-            console.log('Job Id response  : ', response);
+            let responseData = JSON.parse(response.body);
+            let insertDataRequest = {
+                url: instanceUrl + '/' + responseData.contentUrl,
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'OAuth ' + oauthToken,
+                    'Content-Type': 'text/csv',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(workbookResult)
+            };
+
+            request(insertDataRequest, function (err, response) {
+                if (err) { res.send({ error: err }); }
+                console.log('Response :: ' , response.body);
+            });
         });
 
         //console.log(result);
