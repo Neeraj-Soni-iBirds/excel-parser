@@ -49,11 +49,11 @@ module.exports = app => {
                 "lineEnding": "CRLF"
             })
         };
-        await request(jobIdRequest, function (err, response) {
+        let test = await request(jobIdRequest, function (err, response) {
             if (err) { res.send({ error: err }); }
-            responseData = JSON.parse(response.body);
+            return responseData = JSON.parse(response.body);
         });
-
+        console.log('TESTTESTTEST  ' , test);
         console.log('workbookResult  ', typeof workbookResult + '   ' + workbookResult);
         let insertDataRequest = {
             url: instanceUrl + '/' + responseData.contentUrl,
