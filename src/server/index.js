@@ -122,7 +122,7 @@ module.exports = app => {
         console.log('objectRequestResponse  ', objectRequestResponse);
 
         if (err) { res.send({ error: err }); }
-        JSON.parse(objectRequestResponse.body).sobjects.forEach(function (item, index) {
+        JSON.parse(objectRequestResponse).sobjects.forEach(function (item, index) {
             let obj = {
                 objApiName: item.name,
                 objectLabel: item.label,
