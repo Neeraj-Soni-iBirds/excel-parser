@@ -9,16 +9,18 @@ let bodyParser = require('body-parser'),
     oauthToken,
     instanceUrl,
     process_wb = function (workbook) {
-        let result = [];
+        let result;
         workbook.SheetNames.forEach(function (sheetName) {
             let csv = XLSX.utils.sheet_to_csv(workbook.Sheets[sheetName]);
-            if (csv.length) {
-                result.push("SHEET: " + sheetName);
-                result.push("");
-                result.push(csv);
-            }
+            // if (csv.length) {
+            //     result.push("SHEET: " + sheetName);
+            //     result.push("");
+            //     result.push(csv);
+            // }
+            if (csv.length)
+                result = csv;
         });
-        return result.join("\n");
+        return result;
     }
 
 module.exports = app => {
@@ -58,12 +60,12 @@ module.exports = app => {
                     'Content-Type': 'text/csv',
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify(workbookResult)
+                body: workbookResult
             };
 
             request(insertDataRequest, function (err, response) {
                 if (err) { res.send({ error: err }); }
-                console.log('Response :: ' , response);
+                console.log('Response :: ', response);
             });
         });
 
