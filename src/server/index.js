@@ -54,10 +54,10 @@ module.exports = app => {
         try {
             jobIdRequestResponse = await request(jobIdRequest);
         } catch (err) {
-            logger.error('Http error', err);
-            return res.status(500).send();
+            console.log('Error: ', err);
         }
-        console.log('jobIdRequestResponse ', jobIdRequestResponse);
+        console.log('jobIdRequestResponse ', jobIdRequestResponse.id);
+
 
         let insertDataRequest = {
             url: instanceUrl + '/' + jobIdRequestResponse.contentUrl,
@@ -72,10 +72,10 @@ module.exports = app => {
         try {
             insertDataRequestResponse = await request(insertDataRequest);
         } catch (err) {
-            logger.error('Http error', err);
-            return res.status(500).send();
+            console.log('Error: ', err);
         }
         console.log('insertDataRequestResponse  ', insertDataRequestResponse);
+
 
         let setStatusRequest = {
             url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + jobIdRequestResponse.id,
@@ -92,8 +92,7 @@ module.exports = app => {
         try {
             setStatusRequestResponse = await request(setStatusRequest);
         } catch (err) {
-            logger.error('Http error', err);
-            return res.status(500).send();
+            console.log('Error: ', err);
         }
         console.log('setStatusRequestResponse  ', setStatusRequestResponse);
 
@@ -116,11 +115,8 @@ module.exports = app => {
         try {
             objectRequestResponse = await request(objectRequest);
         } catch (err) {
-            logger.error('Http error', err);
-            //return res.status(500).send();
+            console.log('Error: ', err);
         }
-        console.log('objectRequestResponse  ', objectRequestResponse);
-
         JSON.parse(objectRequestResponse).sobjects.forEach(function (item, index) {
             let obj = {
                 objApiName: item.name,
