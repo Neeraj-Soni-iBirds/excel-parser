@@ -76,9 +76,9 @@ module.exports = app => {
                     'Content-Type': 'application/json; charset=UTF-8',
                     'Accept': 'application/json'
                 },
-                body: {
+                body: JSON.stringify({
                     "state": "UploadComplete"
-                }
+                })
             };
 
             await request(setStatus, function (err, response) {
