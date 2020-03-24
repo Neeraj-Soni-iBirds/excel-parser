@@ -34,6 +34,7 @@ module.exports = app => {
         console.log('objectName :: ', objectName);
         let jobIdRequest = {
             url: instanceUrl + '/services/data/v47.0/jobs/ingest/',
+            method: 'POST',
             headers: {
                 'Authorization': 'OAuth ' + oauthToken,
                 'Content-Type': 'application/json; charset=UTF-8',
@@ -48,10 +49,11 @@ module.exports = app => {
         };
 
         request(jobIdRequest, function (err, response) {
+            if (err) { res.send({ error: err }); }
             console.log('Job Id response  : ', response);
         });
 
-        console.log(result);
+        //console.log(result);
         res.send({ data: result });
     });
 
@@ -67,6 +69,7 @@ module.exports = app => {
         };
 
         request(objectRequest, function (err, response) {
+            if (err) { res.send({ error: err }); }
             JSON.parse(response.body).sobjects.forEach(function (item, index) {
                 let obj = {
                     objApiName: item.name,

@@ -15,7 +15,7 @@ export default class App extends LightningElement {
     fileReader;
     content;
 
-    connectedCallback(){
+    connectedCallback() {
         getObjects().then(result => {
             this.objects = result;
         });
@@ -39,7 +39,6 @@ export default class App extends LightningElement {
     uploadHelper() {
         this.showLoader = true;
         this.file = this.filesUploaded[0];
-        console.log('filefilefile :: ' ,this.file);
         if (this.file.size > this.MAX_FILE_SIZE) {
             window.console.log('File Size is to long');
             return;
@@ -53,7 +52,7 @@ export default class App extends LightningElement {
             let base64 = 'base64,';
             this.content = this.fileContents.indexOf(base64) + base64.length;
             this.fileContents = this.fileContents.substring(this.content);
-            
+
             let sheetData = JSON.stringify(
                 {
                     data: this.fileContents,
@@ -62,7 +61,7 @@ export default class App extends LightningElement {
             );
 
             saveFile(sheetData, 'Contact').then(result => {
-                console.log("Parsed Result::   ", result);
+                //console.log("Parsed Result::   ", result);
             });
         });
         this.showLoader = false;
