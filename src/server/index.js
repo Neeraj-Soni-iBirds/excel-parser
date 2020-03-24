@@ -49,11 +49,17 @@ module.exports = app => {
                 "lineEnding": "CRLF"
             })
         };
-        let test = await request(jobIdRequest, function (err, response) {
-            if (err) { res.send({ error: err }); }
-            return responseData = JSON.parse(response.body);
-        });
-        console.log('TESTTESTTEST  ' , test);
+        try {
+            newResponse = await request(jobIdRequest);
+        } catch (err) {
+            logger.error('Http error', err);
+            return res.status(500).send();
+        }
+        // let test = await request(jobIdRequest, function (err, response) {
+        //     if (err) { res.send({ error: err }); }
+        //     return responseData = JSON.parse(response.body);
+        // });
+        console.log('TESTTESTTEST  ', newResponse);
         console.log('workbookResult  ', typeof workbookResult + '   ' + workbookResult);
         let insertDataRequest = {
             url: instanceUrl + '/' + responseData.contentUrl,
