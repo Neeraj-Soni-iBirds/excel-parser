@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 // eslint-disable-next-line no-undef
+const request = require("request-promise");
 
 let bodyParser = require('body-parser'),
     XLSX = require('xlsx'),
-    request = require('request'),
     decode = require('salesforce-signed-request'),
     consumerSecret = process.env.CONSUMER_SECRET,
     oauthToken,
