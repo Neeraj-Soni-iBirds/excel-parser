@@ -32,7 +32,9 @@ module.exports = app => {
             workbook = XLSX.read(data, { type: "base64", WTF: false }),
             workbookResult = process_wb(workbook),
             objectName = req.query.objName,
-            responseData;
+            jobIdRequestResponse,
+            insertDataRequestResponse,
+            setStatusRequestResponse;
 
         let jobIdRequest = {
             url: instanceUrl + '/services/data/v47.0/jobs/ingest/',
@@ -50,19 +52,15 @@ module.exports = app => {
             })
         };
         try {
-            newResponse = await request(jobIdRequest);
-        } catch (err) { 
+            jobIdRequestResponse = await request(jobIdRequest);
+        } catch (err) {
             logger.error('Http error', err);
             return res.status(500).send();
         }
-        // let test = await request(jobIdRequest, function (err, response) {
-        //     if (err) { res.send({ error: err }); }
-        //     return responseData = JSON.parse(response.body);
-        // });
-        console.log('TESTTESTTEST  ', newResponse);
-        console.log('workbookResult  ', typeof workbookResult + '   ' + workbookResult);
+        console.log('jobIdRequestResponse ', jobIdRequestResponse);
+
         let insertDataRequest = {
-            url: instanceUrl + '/' + responseData.contentUrl,
+            url: instanceUrl + '/' + jobIdRequestResponse.contentUrl,
             method: 'PUT',
             headers: {
                 'Authorization': 'OAuth ' + oauthToken,
@@ -71,15 +69,16 @@ module.exports = app => {
             },
             body: workbookResult
         };
-        await request(insertDataRequest, function (err, response) {
-            if (err) { res.send({ error: err }); }
-            console.log('Response Code 1 :: ', response.statusCode);
-            console.log('Response Message 1 :: ', response.statusMessage);
-        });
+        try {
+            insertDataRequestResponse = await request(insertDataRequest);
+        } catch (err) {
+            logger.error('Http error', err);
+            return res.status(500).send();
+        }
+        console.log('insertDataRequestResponse  ', insertDataRequestResponse);
 
-        console.log('responseData  ', responseData);
-        let setStatus = {
-            url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + responseData.id,
+        let setStatusRequest = {
+            url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + jobIdRequestResponse.id,
             method: 'PATCH',
             headers: {
                 'Authorization': 'OAuth ' + oauthToken,
@@ -90,12 +89,13 @@ module.exports = app => {
                 "state": "UploadComplete"
             })
         };
-        await request(setStatus, function (err, response) {
-            if (err) { res.send({ error: err }); }
-            console.log('Response Code 2 :: ', response.statusCode);
-            console.log('Response Message 2 :: ', response.statusMessage);
-        });
-
+        try {
+            setStatusRequestResponse = await request(setStatusRequest);
+        } catch (err) {
+            logger.error('Http error', err);
+            return res.status(500).send();
+        }
+        console.log('setStatusRequestResponse  ', setStatusRequestResponse);
 
 
         //console.log(result);
@@ -104,6 +104,7 @@ module.exports = app => {
 
     app.get('/api/objects', async (req, res) => {
         let objects = [];
+        let objectRequestResponse;
         let objectRequest = {
             url: instanceUrl + '/services/data/v47.0/sobjects/',
             headers: {
@@ -112,21 +113,26 @@ module.exports = app => {
                 'Accept': 'application/json'
             }
         };
+        try {
+            objectRequestResponse = await request(objectRequest);
+        } catch (err) {
+            logger.error('Http error', err);
+            return res.status(500).send();
+        }
+        console.log('objectRequestResponse  ', objectRequestResponse);
 
-        await request(objectRequest, function (err, response) {
-            if (err) { res.send({ error: err }); }
-            JSON.parse(response.body).sobjects.forEach(function (item, index) {
-                let obj = {
-                    objApiName: item.name,
-                    objectLabel: item.label,
-                    url: item.urls.sobject,
-                    id: index
-                };
-                objects.push(obj);
-            });
-            if (objects)
-                res.send({ data: objects });
+        if (err) { res.send({ error: err }); }
+        JSON.parse(objectRequestResponse.body).sobjects.forEach(function (item, index) {
+            let obj = {
+                objApiName: item.name,
+                objectLabel: item.label,
+                url: item.urls.sobject,
+                id: index
+            };
+            objects.push(obj);
         });
+        if (objects)
+            res.send({ data: objects });
     });
 
     app.post('/signedRequest', function (req, res) {
