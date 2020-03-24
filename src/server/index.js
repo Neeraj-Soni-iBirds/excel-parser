@@ -49,7 +49,7 @@ module.exports = app => {
             })
         };
 
-        request(jobIdRequest, function (err, response) {
+        request(jobIdRequest, async function (err, response) {
             if (err) { res.send({ error: err }); }
             let responseData = JSON.parse(response.body);
             let insertDataRequest = {
