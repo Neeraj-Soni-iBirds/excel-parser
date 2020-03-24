@@ -63,7 +63,7 @@ module.exports = app => {
 
             request(insertDataRequest, function (err, response) {
                 if (err) { res.send({ error: err }); }
-                console.log('Response :: ' , response.body);
+                console.log('Response :: ' , response);
             });
         });
 
