@@ -40,12 +40,12 @@ module.exports = app => {
                 'Content-Type': 'application/json; charset=UTF-8',
                 'Accept': 'application/json'
             },
-            body: {
+            body: JSON.stringify({
                 "object": objectName,
                 "contentType": "CSV",
                 "operation": "insert",
                 "lineEnding": "CRLF"
-            }
+            })
         };
 
         request(jobIdRequest, function (err, response) {
@@ -54,7 +54,7 @@ module.exports = app => {
         });
 
         //console.log(result);
-        res.send({ data: result });
+        //res.send({ data: result });
     });
 
     app.get('/api/objects', async (req, res) => {
@@ -79,8 +79,6 @@ module.exports = app => {
                 };
                 objects.push(obj);
             });
-            objects.shift();
-            console.log('objects  ', objects);
             if (objects)
                 res.send({ data: objects });
         });
