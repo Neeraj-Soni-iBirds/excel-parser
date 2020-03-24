@@ -56,6 +56,7 @@ module.exports = app => {
         } catch (err) {
             console.log('Error: ', err);
         }
+        jobIdRequestResponse = JSON.parse(jobIdRequestResponse);
         console.log('jobIdRequestResponse ', jobIdRequestResponse.id);
 
 
