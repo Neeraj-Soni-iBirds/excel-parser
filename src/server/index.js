@@ -31,7 +31,8 @@ module.exports = app => {
         let data = req.body.data,
             workbook = XLSX.read(data, { type: "base64", WTF: false }),
             workbookResult = process_wb(workbook),
-            objectName = req.query.objName;
+            objectName = req.query.objName,
+            responseData;
 
         let jobIdRequest = {
             url: instanceUrl + '/services/data/v47.0/jobs/ingest/',
@@ -48,45 +49,48 @@ module.exports = app => {
                 "lineEnding": "CRLF"
             })
         };
-
-        request(jobIdRequest, async function (err, response) {
+        await request(jobIdRequest, function (err, response) {
             if (err) { res.send({ error: err }); }
-            let responseData = JSON.parse(response.body);
-            let insertDataRequest = {
-                url: instanceUrl + '/' + responseData.contentUrl,
-                method: 'PUT',
-                headers: {
-                    'Authorization': 'OAuth ' + oauthToken,
-                    'Content-Type': 'text/csv',
-                    'Accept': 'application/json'
-                },
-                body: workbookResult
-            };
-
-            await request(insertDataRequest, function (err, response) {
-                if (err) { res.send({ error: err }); }
-                console.log('Response :: ', response);
-            });
-
-            let setStatus = {
-                url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + responseData.id,
-                method: 'PATCH',
-                headers: {
-                    'Authorization': 'OAuth ' + oauthToken,
-                    'Content-Type': 'application/json; charset=UTF-8',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    "state": "UploadComplete"
-                })
-            };
-
-            await request(setStatus, function (err, response) {
-                if (err) { res.send({ error: err }); }
-                console.log('Response 2  :: ', response);
-            });
-
+            responseData = JSON.parse(response.body);
         });
+
+        console.log('workbookResult  ', typeof workbookResult + '   ' + workbookResult);
+        let insertDataRequest = {
+            url: instanceUrl + '/' + responseData.contentUrl,
+            method: 'PUT',
+            headers: {
+                'Authorization': 'OAuth ' + oauthToken,
+                'Content-Type': 'text/csv',
+                'Accept': 'application/json'
+            },
+            body: workbookResult
+        };
+        await request(insertDataRequest, function (err, response) {
+            if (err) { res.send({ error: err }); }
+            console.log('Response Code 1 :: ', response.statusCode);
+            console.log('Response Message 1 :: ', response.statusMessage);
+        });
+
+        console.log('responseData  ', responseData);
+        let setStatus = {
+            url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + responseData.id,
+            method: 'PATCH',
+            headers: {
+                'Authorization': 'OAuth ' + oauthToken,
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                "state": "UploadComplete"
+            })
+        };
+        await request(setStatus, function (err, response) {
+            if (err) { res.send({ error: err }); }
+            console.log('Response Code 2 :: ', response.statusCode);
+            console.log('Response Message 2 :: ', response.statusMessage);
+        });
+
+
 
         //console.log(result);
         //res.send({ data: result });
