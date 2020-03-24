@@ -83,9 +83,9 @@ module.exports = app => {
                 'Accept': 'application/json'
             }
         };
-
-        request(objectRequest, function (err, response) {
-            if (err) { res.send({ error: err }); }
+        try {
+            let response = await request(objectRequest);
+            console.log('Response body:: ', response.body);
             JSON.parse(response.body).sobjects.forEach(function (item, index) {
                 let obj = {
                     objApiName: item.name,
@@ -97,7 +97,10 @@ module.exports = app => {
             });
             if (objects)
                 res.send({ data: objects });
-        });
+        } catch (err) {
+            if (err) { res.send({ error: err }); }
+
+        }
     });
 
     app.post('/signedRequest', function (req, res) {
