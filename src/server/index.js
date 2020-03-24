@@ -117,11 +117,10 @@ module.exports = app => {
             objectRequestResponse = await request(objectRequest);
         } catch (err) {
             logger.error('Http error', err);
-            return res.status(500).send();
+            //return res.status(500).send();
         }
         console.log('objectRequestResponse  ', objectRequestResponse);
 
-        if (err) { res.send({ error: err }); }
         JSON.parse(objectRequestResponse).sobjects.forEach(function (item, index) {
             let obj = {
                 objApiName: item.name,
