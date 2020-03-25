@@ -86,7 +86,7 @@ module.exports = app => {
         }
 
         try {
-            setTimeout(() => {
+            setTimeout(async () => {
                 getStatusResponse = await request({
                     url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + jobIdResponse.id + '/',
                     method: 'GET',
