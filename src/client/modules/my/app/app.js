@@ -43,6 +43,7 @@ export default class App extends LightningElement {
             console.log('INSIDE ELSE CONDITION');
             this.fileName = 'Please select file to upload!!';
             this.showSnackbar('error', 'Select file and Object');
+            alert('Select file and Object');
         }
     }
 
