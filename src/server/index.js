@@ -76,20 +76,18 @@ module.exports = app => {
 
 
         try {
-            setTimeout(
-                setStatusResponse = await request({
-                    url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + jobIdResponse.id + '/',
-                    method: 'PATCH',
-                    headers: {
-                        'Authorization': 'OAuth ' + oauthToken,
-                        'Content-Type': 'application/json; charset=UTF-8',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        "state": "UploadComplete"
-                    })
+            setStatusResponse = await request({
+                url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + jobIdResponse.id + '/',
+                method: 'PATCH',
+                headers: {
+                    'Authorization': 'OAuth ' + oauthToken,
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    "state": "UploadComplete"
                 })
-                , 1000);
+            });
         } catch (err) {
             console.log('Error: ', err);
         }

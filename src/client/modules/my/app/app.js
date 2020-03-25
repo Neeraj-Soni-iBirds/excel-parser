@@ -41,7 +41,7 @@ export default class App extends LightningElement {
             this.showLoader = false;
         } else {
             this.fileName = 'Please select file to upload!!';
-            showSnackbar('error', 'Select file and Object');
+            this.showSnackbar('error', 'Select file and Object');
         }
     }
 
@@ -68,8 +68,10 @@ export default class App extends LightningElement {
             );
 
             saveFile(sheetData, this.objectName).then(result => {
-                console.log("Parsed Result::   ", result);
-                console.log("Parsed Result::   ", JSON.parse(result).state);
+                if (JSON.parse(result).state)
+                    this.showSnackbar('success', JSON.parse(result).state);
+                else if (JSON.parse(result).errorMessage)
+                    this.showSnackbar('success', JSON.parse(result).errorMessage);
             });
         });
         this.fileReader.readAsDataURL(this.file);
