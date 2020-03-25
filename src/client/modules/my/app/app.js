@@ -16,9 +16,11 @@ export default class App extends LightningElement {
     content;
 
     connectedCallback() {
+        this.showLoader = true;
         getObjects().then(result => {
             this.objects = result;
         });
+        this.showLoader = false;
     }
 
     handleFilesChange(event) {
@@ -34,7 +36,9 @@ export default class App extends LightningElement {
 
     handleSave() {
         if (this.filesUploaded.length > 0 && this.objectName != '') {
+            this.showLoader = true;
             this.uploadHelper();
+            this.showLoader = false;
         } else {
             this.fileName = 'Please select file to upload!!';
             showSnackbar('error', 'Select file and Object');
@@ -42,13 +46,11 @@ export default class App extends LightningElement {
     }
 
     uploadHelper() {
-        this.showLoader = true;
         this.file = this.filesUploaded[0];
         if (this.file.size > this.MAX_FILE_SIZE) {
             window.console.log('File Size is to long');
             return;
         }
-        this.showLoader = true;
         // create a FileReader object 
         this.fileReader = new FileReader();
         // set onload function of FileReader object  
@@ -67,9 +69,9 @@ export default class App extends LightningElement {
 
             saveFile(sheetData, this.objectName).then(result => {
                 console.log("Parsed Result::   ", result);
+                console.log("Parsed Result::   ", JSON.parse(result).state);
             });
         });
-        this.showLoader = false;
         this.fileReader.readAsDataURL(this.file);
     }
 

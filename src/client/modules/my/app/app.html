@@ -14,7 +14,7 @@
             <div class="loader"></div>
         </template>
         <template if:true={objects}>
-            Object Names: <br> <br>
+            Object Names: <br>
             <select name="" id="names" onchange={handleChange}>
                 <option value="none">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--NONE--</option>
                 <template for:each={objects} for:item="obj">
@@ -22,7 +22,7 @@
                 </template>
             </select>
         </template>
-        <br/>
+        <br/><br/>
         <input type="file" onchange={handleFilesChange} name="fileToUpload" id="fileToUpload">
         <br/><br/>
         <button style="width: auto;" onclick={handleSave}>Save File</button>
