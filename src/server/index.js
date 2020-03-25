@@ -108,7 +108,6 @@ module.exports = app => {
             console.log('Error: ', err);
         }
         console.log('getStatusResponse  ', getStatusResponse);
-
         res.send({ data: getStatusResponse });
     });
 

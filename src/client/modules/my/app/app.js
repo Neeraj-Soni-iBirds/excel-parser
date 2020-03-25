@@ -33,7 +33,7 @@ export default class App extends LightningElement {
     }
 
     handleSave() {
-        if (this.filesUploaded.length > 0 && this.objectName) {
+        if (this.filesUploaded.length > 0 && this.objectName != '') {
             this.uploadHelper();
         } else {
             this.fileName = 'Please select file to upload!!';
