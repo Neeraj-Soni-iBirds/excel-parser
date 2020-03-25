@@ -7,7 +7,7 @@ export default class App extends LightningElement {
     @track showLoader = false;
     @track fileName = '';
     @track objects = [];
-
+    @track objectName = "";
     filesUploaded = [];
     file;
     MAX_FILE_SIZE = 1500000;
@@ -28,11 +28,16 @@ export default class App extends LightningElement {
         }
     }
 
+    handleChange(event) {
+        this.objectName = event.target.value;
+    }
+
     handleSave() {
-        if (this.filesUploaded.length > 0) {
+        if (this.filesUploaded.length > 0 && this.objectName) {
             this.uploadHelper();
         } else {
             this.fileName = 'Please select file to upload!!';
+            showSnackbar('error', 'Select file and Object');
         }
     }
 
@@ -60,8 +65,8 @@ export default class App extends LightningElement {
                 }
             );
 
-            saveFile(sheetData, 'Contact').then(result => {
-                //console.log("Parsed Result::   ", result);
+            saveFile(sheetData, this.objectName).then(result => {
+                console.log("Parsed Result::   ", result);
             });
         });
         this.showLoader = false;

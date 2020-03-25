@@ -28,12 +28,13 @@ module.exports = app => {
             workbook = XLSX.read(data, { type: "base64", WTF: false }),
             workbookResult = process_wb(workbook),
             objectName = req.query.objName,
-            jobIdRequestResponse,
-            insertDataRequestResponse,
-            setStatusRequestResponse;
+            jobIdResponse,
+            insertDataResponse,
+            setStatusResponse,
+            getStatusResponse;
 
         try {
-            jobIdRequestResponse = await request({
+            jobIdResponse = await request({
                 url: instanceUrl + '/services/data/v47.0/jobs/ingest/',
                 method: 'POST',
                 headers: {
@@ -51,15 +52,15 @@ module.exports = app => {
         } catch (err) {
             console.log('Error: ', err);
         }
-        jobIdRequestResponse = JSON.parse(jobIdRequestResponse);
-        console.log('jobIdRequestResponse ', jobIdRequestResponse.id);
+        jobIdResponse = JSON.parse(jobIdResponse);
+        console.log('jobIdResponse ', jobIdResponse.id);
 
 
-        console.log('jobIdRequestResponse.contentUrl  ', jobIdRequestResponse.contentUrl);
+        console.log('jobIdResponse.contentUrl  ', jobIdResponse.contentUrl);
         console.log('workbookResult ', workbookResult);
         try {
-            insertDataRequestResponse = await request({
-                url: instanceUrl + '/' + jobIdRequestResponse.contentUrl + '/',
+            insertDataResponse = await request({
+                url: instanceUrl + '/' + jobIdResponse.contentUrl + '/',
                 method: 'PUT',
                 headers: {
                     'Authorization': 'OAuth ' + oauthToken,
@@ -71,12 +72,12 @@ module.exports = app => {
         } catch (err) {
             console.log('Error: ', err);
         }
-        console.log('insertDataRequestResponse  ', insertDataRequestResponse);
+        console.log('insertDataResponse  ', insertDataResponse);
 
 
         try {
-            setStatusRequestResponse = await request({
-                url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + jobIdRequestResponse.id + '/',
+            setStatusResponse = await request({
+                url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + jobIdResponse.id + '/',
                 method: 'PATCH',
                 headers: {
                     'Authorization': 'OAuth ' + oauthToken,
@@ -90,8 +91,25 @@ module.exports = app => {
         } catch (err) {
             console.log('Error: ', err);
         }
-        console.log('setStatusRequestResponse  ', setStatusRequestResponse);
-        res.send({ data: 'success' });
+        console.log('setStatusResponse  ', setStatusResponse);
+
+
+        try {
+            getStatusResponse = await request({
+                url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + jobIdResponse.id + '/',
+                method: 'GET',
+                headers: {
+                    'Authorization': 'OAuth ' + oauthToken,
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'Accept': 'application/json'
+                }
+            });
+        } catch (err) {
+            console.log('Error: ', err);
+        }
+        console.log('getStatusResponse  ', getStatusResponse);
+
+        res.send({ data: getStatusResponse });
     });
 
     app.get('/api/objects', async (req, res) => {
