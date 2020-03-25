@@ -106,16 +106,15 @@ module.exports = app => {
     app.get('/api/objects', async (req, res) => {
         let objects = [];
         let objectRequestResponse;
-        let objectRequest = {
-            url: instanceUrl + '/services/data/v47.0/sobjects/',
-            headers: {
-                'Authorization': 'OAuth ' + oauthToken,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        };
         try {
-            objectRequestResponse = await request(objectRequest);
+            objectRequestResponse = await request({
+                url: instanceUrl + '/services/data/v47.0/sobjects/',
+                headers: {
+                    'Authorization': 'OAuth ' + oauthToken,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            });
         } catch (err) {
             console.log('Error: ', err);
         }
