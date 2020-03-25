@@ -86,17 +86,17 @@ module.exports = app => {
         }
 
         try {
-            setTimeout(async () => {
-                getStatusResponse = await request({
-                    url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + jobIdResponse.id + '/',
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'OAuth ' + oauthToken,
-                        'Content-Type': 'application/json; charset=UTF-8',
-                        'Accept': 'application/json'
-                    }
-                });
-            }, 2000);
+            //setTimeout(async () => {
+            getStatusResponse = await request({
+                url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + jobIdResponse.id + '/',
+                method: 'GET',
+                headers: {
+                    'Authorization': 'OAuth ' + oauthToken,
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'Accept': 'application/json'
+                }
+            });
+            //}, 2000);
         } catch (err) {
             console.log('Error: ', err);
         }
