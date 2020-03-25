@@ -76,7 +76,7 @@ module.exports = app => {
 
 
         try {
-            setInterval(
+            setTimeout(
                 setStatusResponse = await request({
                     url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + jobIdResponse.id + '/',
                     method: 'PATCH',
