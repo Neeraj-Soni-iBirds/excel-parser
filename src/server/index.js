@@ -12,11 +12,6 @@ let bodyParser = require('body-parser'),
         let result;
         workbook.SheetNames.forEach(function (sheetName) {
             let csv = XLSX.utils.sheet_to_csv(workbook.Sheets[sheetName]);
-            // if (csv.length) {
-            //     result.push("SHEET: " + sheetName);
-            //     result.push("");
-            //     result.push(csv);
-            // }
             if (csv.length)
                 result = csv;
         });
@@ -37,23 +32,22 @@ module.exports = app => {
             insertDataRequestResponse,
             setStatusRequestResponse;
 
-        let jobIdRequest = {
-            url: instanceUrl + '/services/data/v47.0/jobs/ingest/',
-            method: 'POST',
-            headers: {
-                'Authorization': 'OAuth ' + oauthToken,
-                'Content-Type': 'application/json; charset=UTF-8',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                "object": objectName,
-                "contentType": "CSV",
-                "operation": "insert",
-                "lineEnding": "LF"
-            })
-        };
         try {
-            jobIdRequestResponse = await request(jobIdRequest);
+            jobIdRequestResponse = await request({
+                url: instanceUrl + '/services/data/v47.0/jobs/ingest/',
+                method: 'POST',
+                headers: {
+                    'Authorization': 'OAuth ' + oauthToken,
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    "object": objectName,
+                    "contentType": "CSV",
+                    "operation": "insert",
+                    "lineEnding": "LF"
+                })
+            });
         } catch (err) {
             console.log('Error: ', err);
         }
@@ -63,38 +57,36 @@ module.exports = app => {
 
         console.log('jobIdRequestResponse.contentUrl  ', jobIdRequestResponse.contentUrl);
         console.log('workbookResult ', workbookResult);
-        let insertDataRequest = {
-            url: instanceUrl + '/' + jobIdRequestResponse.contentUrl + '/',
-            method: 'PUT',
-            headers: {
-                'Authorization': 'OAuth ' + oauthToken,
-                'Content-Type': 'text/csv',
-                'Accept': 'application/json'
-            },
-            body: workbookResult
-        };
         try {
-            insertDataRequestResponse = await request(insertDataRequest);
+            insertDataRequestResponse = await request({
+                url: instanceUrl + '/' + jobIdRequestResponse.contentUrl + '/',
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'OAuth ' + oauthToken,
+                    'Content-Type': 'text/csv',
+                    'Accept': 'application/json'
+                },
+                body: workbookResult
+            });
         } catch (err) {
             console.log('Error: ', err);
         }
         console.log('insertDataRequestResponse  ', insertDataRequestResponse);
 
 
-        let setStatusRequest = {
-            url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + jobIdRequestResponse.id + '/',
-            method: 'PATCH',
-            headers: {
-                'Authorization': 'OAuth ' + oauthToken,
-                'Content-Type': 'application/json; charset=UTF-8',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                "state": "UploadComplete"
-            })
-        };
         try {
-            setStatusRequestResponse = await request(setStatusRequest);
+            setStatusRequestResponse = await request({
+                url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + jobIdRequestResponse.id + '/',
+                method: 'PATCH',
+                headers: {
+                    'Authorization': 'OAuth ' + oauthToken,
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    "state": "UploadComplete"
+                })
+            });
         } catch (err) {
             console.log('Error: ', err);
         }
