@@ -136,5 +136,5 @@ module.exports = app => {
         oauthToken = signedRequest.client.oauthToken;
         instanceUrl = signedRequest.client.instanceUrl;
         return res.redirect('/');
-    });
+    }); 
 };
