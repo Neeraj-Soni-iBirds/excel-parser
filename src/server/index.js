@@ -49,7 +49,7 @@ module.exports = app => {
                 "object": objectName,
                 "contentType": "CSV",
                 "operation": "insert",
-                "lineEnding": "CRLF"
+                "lineEnding": "LF"
             })
         };
         try {
