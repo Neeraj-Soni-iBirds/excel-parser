@@ -15,7 +15,6 @@ let bodyParser = require('body-parser'),
             if (csv.length)
                 result = csv;
         });
-        console.log('Result:: ', result);
         return result;
     }
 
@@ -53,11 +52,7 @@ module.exports = app => {
             console.log('Error: ', err);
         }
         jobIdResponse = JSON.parse(jobIdResponse);
-        console.log('jobIdResponse ', jobIdResponse.id);
 
-
-        console.log('jobIdResponse.contentUrl  ', jobIdResponse.contentUrl);
-        console.log('workbookResult ', workbookResult);
         try {
             insertDataResponse = await request({
                 url: instanceUrl + '/' + jobIdResponse.contentUrl + '/',
@@ -72,8 +67,6 @@ module.exports = app => {
         } catch (err) {
             console.log('Error: ', err);
         }
-        console.log('insertDataResponse  ', insertDataResponse);
-
 
         try {
             setStatusResponse = await request({
@@ -91,23 +84,22 @@ module.exports = app => {
         } catch (err) {
             console.log('Error: ', err);
         }
-        console.log('setStatusResponse  ', setStatusResponse);
-
 
         try {
-            getStatusResponse = await request({
-                url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + jobIdResponse.id + '/',
-                method: 'GET',
-                headers: {
-                    'Authorization': 'OAuth ' + oauthToken,
-                    'Content-Type': 'application/json; charset=UTF-8',
-                    'Accept': 'application/json'
-                }
-            });
+            setTimeout(() => {
+                getStatusResponse = await request({
+                    url: instanceUrl + '/services/data/v47.0/jobs/ingest/' + jobIdResponse.id + '/',
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'OAuth ' + oauthToken,
+                        'Content-Type': 'application/json; charset=UTF-8',
+                        'Accept': 'application/json'
+                    }
+                });
+            }, 2000);
         } catch (err) {
             console.log('Error: ', err);
         }
-        console.log('getStatusResponse  ', getStatusResponse);
         res.send({ data: getStatusResponse });
     });
 

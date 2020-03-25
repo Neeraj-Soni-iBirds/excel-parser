@@ -35,11 +35,12 @@ export default class App extends LightningElement {
     }
 
     handleSave() {
-        if (this.filesUploaded.length > 0 && this.objectName != '') {
+        if (this.filesUploaded.length > 0 && (this.objectName != '' || this.objectName != 'none')) {
             this.showLoader = true;
             this.uploadHelper();
             this.showLoader = false;
         } else {
+            console.log('INSIDE ELSE CONDITION');
             this.fileName = 'Please select file to upload!!';
             this.showSnackbar('error', 'Select file and Object');
         }
