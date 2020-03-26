@@ -5,6 +5,7 @@
     "bugs": "https://github.com/Tdssaini/lwc-open-source-with-heroku/issues",
     "dependencies": {
         "@salesforce/eslint-config-lwc": "^0.4.0",
+        "acorn": "^7.1.1",
         "canvas": "^2.6.0",
         "comment-json": "^3.0.2",
         "dotenv": "^8.2.0",
