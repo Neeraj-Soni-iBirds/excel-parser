@@ -72,7 +72,7 @@ export default class App extends LightningElement {
                 if (JSON.parse(result).state)
                     this.showSnackbar('success', JSON.parse(result).state);
                 else if (JSON.parse(result).errorMessage)
-                    this.showSnackbar('success', JSON.parse(result).errorMessage);
+                    this.showSnackbar('error', JSON.parse(result).errorMessage);
             });
         });
         this.fileReader.readAsDataURL(this.file);
