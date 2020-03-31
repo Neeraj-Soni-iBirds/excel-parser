@@ -65,7 +65,7 @@ module.exports = app => {
                 body: workbookResult
             });
         } catch (err) {
-            console.log('Error: ', err);
+            console.log('Error: 1', err);
         }
 
         try {
@@ -82,7 +82,7 @@ module.exports = app => {
                 })
             });
         } catch (err) {
-            console.log('Error: ', err);
+            console.log('Error: 2', err);
         }
 
         try {
@@ -98,7 +98,7 @@ module.exports = app => {
             });
             //}, 2000);
         } catch (err) {
-            console.log('Error: ', err);
+            console.log('Error: 3', err);
         }
         res.send({ data: getStatusResponse });
     });
@@ -128,7 +128,7 @@ module.exports = app => {
                     objects.push(obj);
                 });
         } catch (err) {
-            console.log('Error: ', err);
+            res.send({ error: 'Error while fetching objects !' });
         }
         if (objects.length > 0)
             res.send({ data: objects });

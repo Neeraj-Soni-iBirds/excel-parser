@@ -19,8 +19,8 @@ export default class App extends LightningElement {
         this.showLoader = true;
         getObjects().then(result => {
             this.objects = result;
+            this.showLoader = false;
         });
-        this.showLoader = false;
     }
 
     handleFilesChange(event) {
@@ -64,10 +64,9 @@ export default class App extends LightningElement {
                     this.showSnackbar('success', JSON.parse(result).state);
                 else if (JSON.parse(result).errorMessage)
                     this.showSnackbar('error', JSON.parse(result).errorMessage);
+                this.showLoader = false;
             });
-            this.showLoader = false;
         });
-        this.fileReader.readAsDataURL(this.file);
     }
 
     showSnackbar(variant = 'error', message = 'Some Error Occoured !', duration = 3000) {
