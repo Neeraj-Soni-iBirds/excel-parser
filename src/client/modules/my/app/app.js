@@ -61,10 +61,12 @@ export default class App extends LightningElement {
             });
             this.showLoader = true;
             saveFile(sheetData, this.objectName).then(result => {
-                if (JSON.parse(result).state)
+                if (JSON.parse(result).state != 'Failed')
                     this.showSnackbar('success', JSON.parse(result).state);
-                else if (JSON.parse(result).errorMessage)
-                    this.showSnackbar('error', JSON.parse(result).errorMessage);
+                else if (JSON.parse(result).state == 'Failed') {
+                    this.showSnackbar('success', JSON.parse(result).state);
+                    console.log('Error message', JSON.parse(result).errorMessage);
+                }
                 this.showLoader = false;
             });
         });
