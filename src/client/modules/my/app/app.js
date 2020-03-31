@@ -35,6 +35,7 @@ export default class App extends LightningElement {
     }
 
     handleSave() {
+        console.log('this.objectName  ', this.objectName);
         if (this.filesUploaded.length > 0 && (this.objectName != '' || this.objectName != 'none')) {
             this.showLoader = true;
             this.uploadHelper();
