@@ -43,7 +43,6 @@ export default class App extends LightningElement {
     }
 
     uploadHelper() {
-        this.showLoader = true;
         this.file = this.filesUploaded[0];
         if (this.file.size > this.MAX_FILE_SIZE) {
             this.showSnackbar('error', 'File Size is to long');
@@ -59,14 +58,16 @@ export default class App extends LightningElement {
                 data: this.fileContents,
                 name: this.fileName
             });
+            this.showLoader = true;
             saveFile(sheetData, this.objectName).then(result => {
-                this.showLoader = false;
                 if (JSON.parse(result).state)
                     this.showSnackbar('success', JSON.parse(result).state);
                 else if (JSON.parse(result).errorMessage)
                     this.showSnackbar('error', JSON.parse(result).errorMessage);
             });
+            this.showLoader = false;
         });
+        this.fileReader.readAsDataURL(this.file);
     }
 
     showSnackbar(variant = 'error', message = 'Some Error Occoured !', duration = 3000) {

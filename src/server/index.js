@@ -23,7 +23,6 @@ module.exports = app => {
     let jsonParser = bodyParser.json();
 
     app.post('/api/saveFile', jsonParser, async function (req, res) {
-        console.log('Inside Save File');
         let data = req.body.data,
             workbook = XLSX.read(data, { type: "base64", WTF: false }),
             workbookResult = process_wb(workbook),
@@ -129,7 +128,7 @@ module.exports = app => {
                     objects.push(obj);
                 });
         } catch (err) {
-            res.send({ error: 'Error while fetching objects !' });
+            console.log('Error: 4 ', err);
         }
         if (objects.length > 0)
             res.send({ data: objects });
