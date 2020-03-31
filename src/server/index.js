@@ -23,6 +23,7 @@ module.exports = app => {
     let jsonParser = bodyParser.json();
 
     app.post('/api/saveFile', jsonParser, async function (req, res) {
+        console.log('Inside Save File');
         let data = req.body.data,
             workbook = XLSX.read(data, { type: "base64", WTF: false }),
             workbookResult = process_wb(workbook),
