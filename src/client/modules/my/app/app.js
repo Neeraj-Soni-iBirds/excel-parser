@@ -43,7 +43,6 @@ export default class App extends LightningElement {
             console.log('INSIDE ELSE CONDITION');
             this.fileName = 'Please select file to upload!!';
             this.showSnackbar('error', 'Select file and Object');
-            alert('Select file and Object');
         }
     }
 
@@ -71,9 +70,9 @@ export default class App extends LightningElement {
 
             saveFile(sheetData, this.objectName).then(result => {
                 if (JSON.parse(result).state)
-                    alert(JSON.parse(result).state);
+                    this.showSnackbar('success', JSON.parse(result).state);
                 else if (JSON.parse(result).errorMessage)
-                    alert(JSON.parse(result).errorMessage);
+                    this.showSnackbar('success', JSON.parse(result).errorMessage);
             });
         });
         this.fileReader.readAsDataURL(this.file);
