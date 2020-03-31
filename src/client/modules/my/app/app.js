@@ -64,7 +64,7 @@ export default class App extends LightningElement {
                 if (JSON.parse(result).state != 'Failed')
                     this.showSnackbar('success', JSON.parse(result).state);
                 else if (JSON.parse(result).state == 'Failed') {
-                    this.showSnackbar('success', JSON.parse(result).state);
+                    this.showSnackbar('error', JSON.parse(result).state);
                     console.log('Error message', JSON.parse(result).errorMessage);
                 }
                 this.showLoader = false;
