@@ -260,7 +260,7 @@ h1 {
     position: fixed;
     z-index: 10;
     left: 50%;
-    bottom: 30px;
+    top: 30px;
 }
 
 /* Show the snackbar when clicking on a button (class added with JavaScript) */
