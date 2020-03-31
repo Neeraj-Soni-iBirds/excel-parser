@@ -10,9 +10,6 @@
         </template>
     </header>
     <main class="content">
-        <template if:false={objects}>
-            <div class="loader"></div>
-        </template>
         <template if:true={objects}>
             Object Names: <br>
             <select name="" id="names" onchange={handleChange}>
@@ -22,9 +19,9 @@
                 </template>
             </select>
         </template>
-        <br/><br/>
+        <br /><br />
         <input type="file" onchange={handleFilesChange} name="fileToUpload" id="fileToUpload">
-        <br/><br/>
+        <br /><br />
         <button style="width: auto;" onclick={handleSave}>Save File</button>
     </main>
 </template>

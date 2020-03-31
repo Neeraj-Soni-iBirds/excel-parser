@@ -104,8 +104,9 @@ module.exports = app => {
     });
 
     app.get('/api/objects', async (req, res) => {
-        let objects = [];
-        let objectRequestResponse;
+        let objects = [],
+            objectRequestResponse,
+            response;
         try {
             objectRequestResponse = await request({
                 url: instanceUrl + '/services/data/v47.0/sobjects/',
@@ -115,19 +116,21 @@ module.exports = app => {
                     'Accept': 'application/json'
                 }
             });
+            response = JSON.parse(objectRequestResponse);
+            if (response.sobjects.length > 0)
+                response.sobjects.forEach(function (item, index) {
+                    let obj = {
+                        objApiName: item.name,
+                        objectLabel: item.label,
+                        url: item.urls.sobject,
+                        id: index
+                    };
+                    objects.push(obj);
+                });
         } catch (err) {
             console.log('Error: ', err);
         }
-        JSON.parse(objectRequestResponse).sobjects.forEach(function (item, index) {
-            let obj = {
-                objApiName: item.name,
-                objectLabel: item.label,
-                url: item.urls.sobject,
-                id: index
-            };
-            objects.push(obj);
-        });
-        if (objects)
+        if (objects.length > 0)
             res.send({ data: objects });
     });
 
@@ -136,5 +139,5 @@ module.exports = app => {
         oauthToken = signedRequest.client.oauthToken;
         instanceUrl = signedRequest.client.instanceUrl;
         return res.redirect('/');
-    }); 
+    });
 };

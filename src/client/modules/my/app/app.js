@@ -7,7 +7,7 @@ export default class App extends LightningElement {
     @track showLoader = false;
     @track fileName = '';
     @track objects = [];
-    @track objectName = "";
+    @track objectName = '';
     filesUploaded = [];
     file;
     MAX_FILE_SIZE = 1500000;
@@ -35,46 +35,37 @@ export default class App extends LightningElement {
     }
 
     handleSave() {
-        console.log('this.objectName  ', this.objectName);
-        if (this.filesUploaded.length > 0 && (this.objectName != '' || this.objectName != 'none')) {
-            this.showLoader = true;
+        if (this.filesUploaded.length && this.objectName.length) {
             this.uploadHelper();
-            this.showLoader = false;
         } else {
-            console.log('INSIDE ELSE CONDITION');
-            this.fileName = 'Please select file to upload!!';
-            this.showSnackbar('error', 'Select file and Object');
+            this.showSnackbar('error', 'Select file and/or Object');
         }
     }
 
     uploadHelper() {
         this.file = this.filesUploaded[0];
         if (this.file.size > this.MAX_FILE_SIZE) {
-            window.console.log('File Size is to long');
+            this.showSnackbar('error', 'File Size is to long');
             return;
         }
-        // create a FileReader object 
         this.fileReader = new FileReader();
-        // set onload function of FileReader object  
         this.fileReader.onloadend = (() => {
-            this.fileContents = this.fileReader.result;
             let base64 = 'base64,';
+            this.fileContents = this.fileReader.result;
             this.content = this.fileContents.indexOf(base64) + base64.length;
             this.fileContents = this.fileContents.substring(this.content);
-
-            let sheetData = JSON.stringify(
-                {
-                    data: this.fileContents,
-                    name: this.fileName
-                }
-            );
-
+            let sheetData = JSON.stringify({
+                data: this.fileContents,
+                name: this.fileName
+            });
+            this.showLoader = true;
             saveFile(sheetData, this.objectName).then(result => {
                 if (JSON.parse(result).state)
                     this.showSnackbar('success', JSON.parse(result).state);
                 else if (JSON.parse(result).errorMessage)
                     this.showSnackbar('error', JSON.parse(result).errorMessage);
             });
+            this.showLoader = false;
         });
         this.fileReader.readAsDataURL(this.file);
     }
