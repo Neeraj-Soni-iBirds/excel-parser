@@ -49,7 +49,7 @@ module.exports = app => {
                 })
             });
         } catch (err) {
-            console.log('Error: ', err);
+            console.log('Error: 0 ', JSON.parse(err));
         }
         jobIdResponse = JSON.parse(jobIdResponse);
 
